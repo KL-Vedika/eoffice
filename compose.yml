@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  vllm:
+    image: ghcr.io/knacklabs/eoffice:latest
+    container_name: eoffice
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]  # Replace with your actual token or use an env_file
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    environment:
+      - "DATABASE_URL=postgresql://postgres:80082Ram@100.120.1.23:5432/postgres"
+      - "OPENAI_BASE_URL=http://100.120.1.23:11434/v1"
+      - "OPENAI_API_KEY=ollama"
+      - "OPENAI_MODEL=qwen2.5vl:7b"
+    ports:
+      - "8000:8000"

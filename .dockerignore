@@ -1,0 +1,4 @@
+chrome-extension/*
+.git/*
+.env
+.gitignore

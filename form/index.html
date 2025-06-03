@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electronic Receipt Creation - Tailwind (Full Interactive)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+
+        .asterisk::after {
+            content: ' *';
+            color: red;
+        }
+
+        .partial-asterisk::after {
+            content: ' *';
+            color: orange;
+        }
+
+        .electronic-watermark {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='90' font-weight='bold' fill='%23e0e0e0' transform='rotate(-30 300 200)'%3EElectronic%3C/text%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+
+        .text-xxs {
+            font-size: 0.65rem;
+        }
+
+        .dropdown-panel,
+        .autocomplete-panel {
+            position: absolute;
+            z-index: 50;
+            width: 100%;
+            margin-top: 0.25rem;
+            background-color: white;
+            border: 1px solid #d1d5db;
+            /* gray-300 */
+            border-radius: 0.375rem;
+            /* rounded-md */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            /* shadow-lg */
+        }
+
+        .dropdown-item-selected {
+            background-color: #3b82f6 !important;
+            /* blue-500 */
+            color: white !important;
+        }
+
+        /* Ensure preview area takes up available space */
+        #filePreviewArea {
+            flex-grow: 1;
+            position: relative;
+            /* For watermark to be behind */
+        }
+
+        #filePreviewArea iframe,
+        #filePreviewArea embed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+
+        .watermark-behind-preview {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans text-sm">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-16 bg-blue-700 text-white p-2 flex flex-col items-center space-y-4">
+            <div class="p-2 hover:bg-blue-600 rounded cursor-pointer"><i class="fas fa-bars"></i></div>
+            <div class="p-2 bg-blue-800 ring-2 ring-white rounded cursor-pointer"><i class="fas fa-file-alt"></i></div>
+            <div class="p-2 hover:bg-blue-600 rounded cursor-pointer"><i class="fas fa-folder"></i></div>
+            <div class="p-2 hover:bg-blue-600 rounded cursor-pointer"><i class="fas fa-th-large"></i></div>
+            <div class="p-2 hover:bg-blue-600 rounded cursor-pointer"><i class="fas fa-envelope"></i></div>
+            <div class="p-2 hover:bg-blue-600 rounded cursor-pointer relative">
+                <i class="fas fa-bell"></i>
+                <span
+                    class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2">7</span>
+            </div>
+            <div class="mt-auto p-2 hover:bg-blue-600 rounded cursor-pointer"><i class="fas fa-cog"></i></div>
+            <div class="p-2 hover:bg-blue-600 rounded cursor-pointer"><i class="fas fa-user-cog"></i></div>
+        </aside>
+
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="bg-white shadow-md p-2 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <button class="text-gray-600 hover:text-gray-800"><i class="fas fa-bars"></i></button>
+                    <span class="font-semibold text-gray-700">DASHBOARD</span> <button
+                        class="text-sm text-blue-600 hover:text-blue-800">View</button>
+                </div>
+                <div class="flex items-center space-x-1 text-xs">
+                    <div class="bg-blue-600 text-white px-2 py-1">RECEIPT</div>
+                    <button class="bg-blue-600 text-white px-2 py-1 hover:bg-blue-700">Create</button>
+                    <button class="text-gray-600 px-2 py-1 hover:bg-gray-200">Inbox</button>
+                    <button class="text-gray-600 px-2 py-1 hover:bg-gray-200">Sent</button>
+                    <button class="text-gray-600 px-2 py-1 hover:bg-gray-200">Advance Search</button>
+                </div>
+                <div class="flex items-center space-x-1 text-xs">
+                    <div class="text-gray-700 px-2 py-1">FILE</div>
+                    <button class="text-gray-600 px-2 py-1 hover:bg-gray-200">Create</button>
+                    <button class="text-gray-600 px-2 py-1 hover:bg-gray-200">Inbox</button>
+                    <button class="text-gray-600 px-2 py-1 hover:bg-gray-200">Sent</button>
+                    <button class="text-gray-600 px-2 py-1 hover:bg-gray-200">Advance Search</button>
+                </div>
+                <div class="flex items-center space-x-1 text-xs">
+                    <div class="text-gray-700 px-2 py-1">ISSUE</div>
+                    <button class="text-gray-600 px-2 py-1 hover:bg-gray-200">ISSUE</button>
+                    <button class="text-gray-600 px-2 py-1 hover:bg-gray-200">Returned</button>
+                    <button class="text-gray-600 px-2 py-1 hover:bg-gray-200">Advance Search</button>
+                </div>
+                <div></div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="flex-1 flex overflow-hidden p-1 relative">
+                <div class="w-1/2 flex flex-col border border-gray-300 bg-white mr-1">
+                    <div class="p-2 border-b border-gray-300 space-y-2">
+                        <div class="flex items-center space-x-2">
+                            <label for="fileUpload"
+                                class="cursor-pointer bg-orange-500 text-white px-3 py-1.5 rounded text-xs font-semibold hover:bg-orange-600 flex items-center">
+                                <i class="fas fa-upload mr-1"></i> Upload
+                            </label>
+                            <input id="fileUpload" type="file" class="hidden" accept="application/pdf">
+                            <button id="removeFile"
+                                class="bg-gray-200 text-gray-700 px-3 py-1.5 rounded text-xs font-semibold hover:bg-gray-300 flex items-center"
+                                style="display: none;">
+                                Remove <i class="fas fa-times ml-1"></i>
+                            </button>
+                            <span class="text-red-500 text-xs">Pdf Only <= 50 MB <span class="font-bold">*</span></span>
+                        </div>
+                        
+                        <div class="relative"> <!-- Wrapper for search input and results panel -->
+                            <div class="flex items-center space-x-2">
+                                <input type="text" id="docSearchInput" placeholder="Search Document ID or Content..."
+                                    class="flex-grow p-1.5 border border-gray-300 rounded-l-sm text-xs">
+                                <button id="docSearchButton"
+                                    class="bg-blue-500 text-white px-3 py-1.5 rounded-r-sm text-xs hover:bg-blue-600 flex items-center justify-center w-10">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                            <div id="searchResultsContainer" class="autocomplete-panel hidden mt-1 max-h-60 overflow-y-auto z-20">
+                                <!-- Search results will be populated here by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div id="documentIdDisplay" class="text-xs text-gray-600 mt-1 p-1 bg-gray-50 border rounded-sm"
+                            style="display: none;">
+                            Document ID: <span class="font-semibold text-blue-600"></span>
+                        </div>
+                        <button id="processDocumentButton"
+                            class="w-full mt-2 bg-green-500 text-white px-3 py-1.5 rounded text-xs font-semibold hover:bg-green-600 flex items-center justify-center">
+                            <i class="fas fa-cogs mr-2"></i>Process Document with AI
+                        </button>
+                    </div>
+                    <div id="filePreviewArea" class="flex-grow relative">
+                        <div id="previewPlaceholder"
+                            class="absolute inset-0 flex items-center justify-center text-gray-400 text-sm p-4 text-center z-0">
+                            File preview will appear here.
+                        </div>
+                        <div class="watermark-behind-preview electronic-watermark"></div>
+                    </div>
+                </div>
+
+                <!-- Right Pane (Form) -->
+                <form id="eofficeForm" class="w-1/2 flex flex-col bg-white border border-gray-300 overflow-y-auto">
+                    <div class="p-3 space-y-4 flex-grow">
+                        <!-- Nature Details -->
+                        <div class="border border-gray-300 p-3 rounded-md">
+                            <h2 class="text-sm font-semibold text-gray-700 mb-2 flex items-center"><i
+                                    class="fas fa-leaf mr-2 text-gray-500"></i> Nature Details</h2>
+                            <div class="flex items-center space-x-4">
+                                <label class="flex items-center"><input type="radio" id="receiptNatureElectronic"
+                                        name="receiptNature" formcontrolname="receiptNature" value="E"
+                                        class="form-radio h-3 w-3 text-blue-600" checked><span
+                                        class="ml-1.5 text-xs text-gray-700">Electronic</span></label>
+                                <label class="flex items-center"><input type="radio" id="receiptNaturePhysical"
+                                        name="receiptNature" formcontrolname="receiptNature" value="P"
+                                        class="form-radio h-3 w-3 text-blue-600"><span
+                                        class="ml-1.5 text-xs text-gray-700">Physical</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Diary Details -->
+                        <div class="border border-gray-300 p-3 rounded-md">
+                            <h2 class="text-sm font-semibold text-gray-700 mb-3 flex items-center"><i
+                                    class="fas fa-book mr-2 text-gray-500"></i> Diary Details</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-x-3 gap-y-2 text-xs">
+                                <div>
+                                    <label for="diaryDate" class="block text-gray-600 mb-0.5">Diary Date</label>
+                                    <input type="date" id="diaryDate" formcontrolname="diaryDate" value=""
+                                        class="w-full p-1.5 border border-gray-300 rounded-sm bg-gray-100">
+                                    <!-- Readonly removed for JS to set -->
+                                </div>
+                                <!-- Forms Of Communications -->
+                                <div class="custom-dropdown-container relative">
+                                    <label for="comms-form-input" class="block text-gray-600 mb-0.5 asterisk">Forms Of
+                                        Communications</label>
+                                    <div
+                                        class="dropdown-trigger flex items-center border border-gray-300 rounded-sm bg-white cursor-pointer">
+                                        <input type="text" id="comms-form-input" formcontrolname="correspondenceType"
+                                            placeholder="Choose One"
+                                            class="w-full p-1.5 text-xs border-none focus:ring-0 pointer-events-none"
+                                            readonly value="">
+                                        <i
+                                            class="fas fa-times dropdown-clear text-gray-400 cursor-pointer text-xs px-1 hover:text-gray-600 hidden"></i>
+                                        <i class="fas fa-chevron-down text-gray-400 text-xs px-1.5"></i>
+                                    </div>
+                                    <div class="dropdown-panel hidden">
+                                        <div class="p-2 border-b">
+                                            <div class="relative"><input type="text" placeholder="Search..."
+                                                    class="dropdown-search w-full p-1.5 pl-7 border border-gray-200 rounded-sm text-xs focus:ring-1 focus:ring-blue-300 focus:border-blue-300"><i
+                                                    class="fas fa-search absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs"></i>
+                                            </div>
+                                        </div>
+                                        <ul class="dropdown-list max-h-32 overflow-y-auto text-xs">
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Guideline</li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Indent</li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Letter</li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Interim Reply</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- Language -->
+                                <div class="custom-dropdown-container relative">
+                                    <label for="language-input" class="block text-gray-600 mb-0.5">Language</label>
+                                    <div
+                                        class="dropdown-trigger flex items-center border border-gray-300 rounded-sm bg-white cursor-pointer">
+                                        <input type="text" id="language-input" formcontrolname="language"
+                                            placeholder="English"
+                                            class="w-full p-1.5 text-xs border-none focus:ring-0 pointer-events-none"
+                                            readonly value="English">
+                                        <i
+                                            class="fas fa-times dropdown-clear text-gray-400 cursor-pointer text-xs px-1 hover:text-gray-600"></i>
+                                        <i class="fas fa-chevron-down text-gray-400 text-xs px-1.5"></i>
+                                    </div>
+                                    <div class="dropdown-panel hidden">
+                                        <div class="p-2 border-b">
+                                            <div class="relative"><input type="text" placeholder="Search..."
+                                                    class="dropdown-search w-full p-1.5 pl-7 border border-gray-200 rounded-sm text-xs focus:ring-1 focus:ring-blue-300 focus:border-blue-300"><i
+                                                    class="fas fa-search absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs"></i>
+                                            </div>
+                                        </div>
+                                        <ul class="dropdown-list max-h-32 overflow-y-auto text-xs">
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Assamese</li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Bengali</li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer dropdown-item-selected">
+                                                English</li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Hindi</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="receivedDate" class="block text-gray-600 mb-0.5">Received Date</label>
+                                    <input type="date" id="receivedDate" formcontrolname="receivedDate" value=""
+                                        class="w-full p-1.5 border border-gray-300 rounded-sm">
+                                </div>
+                                <div>
+                                    <label for="letterDate" class="block text-gray-600 mb-0.5">Letter Date</label>
+                                    <input type="date" id="letterDate" formcontrolname="letterDate" value=""
+                                        class="w-full p-1.5 border border-gray-300 rounded-sm">
+                                </div>
+                                <div class="input-with-actions relative">
+                                    <label for="letterRefNo" class="block text-gray-600 mb-0.5">Letter Ref. No.</label>
+                                    <input type="text" id="letterRefNo" formcontrolname="letterRefNo" value=""
+                                        class="w-full p-1.5 border border-gray-300 rounded-sm pr-6">
+                                    <button type="button"
+                                        class="clear-btn absolute right-1 top-1/2 transform -translate-y-1/2 mt-2.5 text-gray-400 hover:text-gray-600 text-xs leading-none">×</button>
+                                </div>
+                                <!-- Delivery Mode -->
+                                <div class="custom-dropdown-container relative">
+                                    <label for="deliveryMode" class="block text-gray-600 mb-0.5 asterisk">Delivery
+                                        Mode</label>
+                                    <div
+                                        class="dropdown-trigger flex items-center border border-gray-300 rounded-sm bg-white cursor-pointer">
+                                        <input type="text" id="deliveryMode" formcontrolname="deliveryMode"
+                                            placeholder="Choose One"
+                                            class="w-full p-1.5 text-xs border-none focus:ring-0 pointer-events-none"
+                                            readonly value="">
+                                        <i
+                                            class="fas fa-times dropdown-clear text-gray-400 cursor-pointer text-xs px-1 hover:text-gray-600 hidden"></i>
+                                        <i class="fas fa-chevron-down text-gray-400 text-xs px-1.5"></i>
+                                    </div>
+                                    <div class="dropdown-panel hidden">
+                                        <div class="p-2 border-b">
+                                            <div class="relative"><input type="text" placeholder="Search..."
+                                                    class="dropdown-search w-full p-1.5 pl-7 border border-gray-200 rounded-sm text-xs focus:ring-1 focus:ring-blue-300 focus:border-blue-300"><i
+                                                    class="fas fa-search absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs"></i>
+                                            </div>
+                                        </div>
+                                        <ul class="dropdown-list max-h-32 overflow-y-auto text-xs">
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Airmail</li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">By Hand</li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Courier</li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Electronic</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div><label for="deliveryModeNo" class="block text-gray-600 mb-0.5">Mode
+                                        Number</label><input type="text" id="deliveryModeNo"
+                                        formcontrolname="deliveryModeNo" value=""
+                                        class="w-full p-1.5 border border-gray-300 rounded-sm"></div>
+                                <!-- Sender Type -->
+                                <div class="custom-dropdown-container relative">
+                                    <label for="sender" class="block text-gray-600 mb-0.5">Sender Type</label>
+                                    <div
+                                        class="dropdown-trigger flex items-center border border-gray-300 rounded-sm bg-white cursor-pointer">
+                                        <input type="text" id="sender" formcontrolname="sender" placeholder="Choose One"
+                                            class="w-full p-1.5 text-xs border-none focus:ring-0 pointer-events-none"
+                                            readonly value="">
+                                        <i
+                                            class="fas fa-times dropdown-clear text-gray-400 cursor-pointer text-xs px-1 hover:text-gray-600 hidden"></i>
+                                        <i class="fas fa-chevron-down text-gray-400 text-xs px-1.5"></i>
+                                    </div>
+                                    <div class="dropdown-panel hidden">
+                                        <ul class="dropdown-list max-h-32 overflow-y-auto text-xs">
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Type 1</li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Type 2</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- VIP -->
+                                <div class="custom-dropdown-container relative md:col-span-1">
+                                    <label for="vipType" class="block text-gray-600 mb-0.5">VIP</label>
+                                    <div
+                                        class="dropdown-trigger flex items-center border border-gray-300 rounded-sm bg-white cursor-pointer">
+                                        <input type="text" id="vipType" formcontrolname="vipType"
+                                            placeholder="Choose One"
+                                            class="w-full p-1.5 text-xs border-none focus:ring-0 pointer-events-none"
+                                            readonly value="">
+                                        <i
+                                            class="fas fa-times dropdown-clear text-gray-400 cursor-pointer text-xs px-1 hover:text-gray-600 hidden"></i>
+                                        <i class="fas fa-chevron-down text-gray-400 text-xs px-1.5"></i>
+                                    </div>
+                                    <div class="dropdown-panel hidden">
+                                        <ul class="dropdown-list max-h-32 overflow-y-auto text-xs">
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">VIP 1</li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">VIP 2</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Details -->
+                        <div class="border border-gray-300 p-3 rounded-md text-xs">
+                            <div class="flex justify-between items-center mb-3">
+                                <h2 class="text-sm font-semibold text-gray-700 flex items-center"><i
+                                        class="fas fa-envelope mr-2 text-gray-500"></i> Contact Details</h2>
+                                <label
+                                    class="flex items-center bg-orange-100 px-2 py-1 rounded-sm border border-orange-300"><input
+                                        type="checkbox" id="addToAddressBook" formcontrolname="addToAddressBook"
+                                        class="form-checkbox h-3 w-3 text-orange-500"><span
+                                        class="ml-1.5 text-gray-700">Add to Address Book</span></label>
+                            </div>
+                            <div>
+                                <label for="orgLevel" class="block text-gray-600 mb-0.5">Min./Dept./Others</label>
+                                <div class="flex"><input type="text" id="orgLevel" formcontrolname="orgLevel" value=""
+                                        placeholder="Select Level"
+                                        class="w-full p-1.5 border border-gray-300 rounded-l-sm"><button type="button"
+                                        id="openMinDeptModal"
+                                        class="bg-gray-200 px-2 border border-l-0 border-gray-300 rounded-r-sm hover:bg-gray-300"><i
+                                            class="fas fa-search text-yellow-600"></i></button></div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-12 gap-x-3 gap-y-2 mt-2 items-end">
+                                <div class="md:col-span-5 custom-dropdown-container relative">
+                                    <!-- Autocomplete-like behavior can be built here -->
+                                    <label for="name" class="block text-gray-600 mb-0.5 partial-asterisk">Name</label>
+                                    <div class="flex"><input type="text" id="name" formcontrolname="name" value=""
+                                            class="w-full p-1.5 border border-gray-300 rounded-l-sm"><button
+                                            type="button"
+                                            class="bg-yellow-500 text-white px-1.5 border border-yellow-500 rounded-r-sm hover:bg-yellow-600 flex items-center"><i
+                                                class="fas fa-address-book text-xs"></i><i
+                                                class="fas fa-chevron-down text-xs ml-1"></i></button></div>
+                                    <div class="autocomplete-panel hidden">
+                                        <ul class="dropdown-list max-h-32 overflow-y-auto text-xs">
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Suggestion 1</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-1 text-center text-gray-500 font-semibold py-1">OR</div>
+                                <div class="md:col-span-6"><label for="designation"
+                                        class="block text-gray-600 mb-0.5 asterisk">Designation</label><input
+                                        type="text" id="designation" formcontrolname="designation" value=""
+                                        class="w-full p-1.5 border border-gray-300 rounded-sm"></div>
+                            </div>
+                            <div class="mt-2 custom-dropdown-container relative"> <!-- Autocomplete-like behavior -->
+                                <label for="organisation" class="block text-gray-600 mb-0.5">Organization</label><input
+                                    type="text" id="organisation" formcontrolname="organisation" value=""
+                                    class="w-full p-1.5 border border-gray-300 rounded-sm">
+                                <div class="autocomplete-panel hidden">
+                                    <ul class="dropdown-list max-h-32 overflow-y-auto text-xs">
+                                        <li class="p-2 hover:bg-blue-100 cursor-pointer">Org Suggestion</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2 mt-2">
+                                <div><label for="mobile" class="block text-gray-600 mb-0.5">Mobile</label><input
+                                        type="tel" id="mobile" formcontrolname="mobile" value=""
+                                        class="w-full p-1.5 border border-gray-300 rounded-sm"></div>
+                                <div><label for="email" class="block text-gray-600 mb-0.5">Email</label><input
+                                        type="email" id="email" formcontrolname="email" value=""
+                                        class="w-full p-1.5 border border-gray-300 rounded-sm"></div>
+                            </div>
+                            <div class="mt-2">
+                                <label for="address"
+                                    class="block text-gray-600 mb-0.5 asterisk">Address</label><textarea id="address"
+                                    formcontrolname="address" rows="2"
+                                    class="w-full p-1.5 border border-gray-300 rounded-sm"></textarea>
+                                <div class="text-right text-gray-500 text-xs mt-0.5 character-counter" data-max="1000">
+                                    Total 1000 | 1000 Character left</div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-12 gap-x-3 gap-y-2 mt-2 items-end">
+                                <!-- Country -->
+                                <div class="custom-dropdown-container relative md:col-span-3">
+                                    <label for="country" class="block text-gray-600 mb-0.5">Country</label>
+                                    <div
+                                        class="dropdown-trigger flex items-center border border-gray-300 rounded-sm bg-white cursor-pointer">
+                                        <input type="text" id="country" formcontrolname="country" placeholder="INDIA"
+                                            class="w-full p-1.5 text-xs border-none focus:ring-0 pointer-events-none"
+                                            readonly value="INDIA">
+                                        <i
+                                            class="fas fa-times dropdown-clear text-gray-400 cursor-pointer text-xs px-1 hover:text-gray-600"></i>
+                                        <i class="fas fa-chevron-down text-gray-400 text-xs px-1.5"></i>
+                                    </div>
+                                    <div class="dropdown-panel hidden">
+                                        <ul class="dropdown-list max-h-32 overflow-y-auto text-xs">
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer dropdown-item-selected">
+                                                INDIA</li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">USA</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-3"> <!-- Standard Select for State -->
+                                    <label for="state" class="block text-gray-600 mb-0.5">State</label>
+                                    <div class="relative"><select id="state" formcontrolname="state"
+                                            class="w-full p-1.5 border border-gray-300 rounded-sm appearance-none pr-8">
+                                            <option value="" selected>Choose One</option>
+                                            <option value="DELHI">Delhi</option>
+                                            <option value="MAHARASHTRA">Maharashtra</option>
+                                        </select><i
+                                            class="fas fa-chevron-down absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none text-xs"></i>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-6 custom-dropdown-container relative">
+                                    <!-- Autocomplete-like behavior -->
+                                    <label for="cityName" class="block text-gray-600 mb-0.5">City/District</label><input
+                                        type="text" id="cityName" formcontrolname="cityName" value=""
+                                        class="w-full p-1.5 border border-gray-300 rounded-sm">
+                                    <div class="autocomplete-panel hidden">
+                                        <ul class="dropdown-list max-h-32 overflow-y-auto text-xs">
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">City Suggestion</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-x-3 gap-y-2 mt-2">
+                                <div>
+                                    <label for="pincode" class="block text-gray-600 mb-0.5">Pin Code</label>
+                                    <div class="relative"><input type="text" id="pincode" formcontrolname="pincode"
+                                            value="" class="w-full p-1.5 border border-gray-300 rounded-sm pr-6">
+                                        <div
+                                            class="absolute right-1 top-0 bottom-0 flex flex-col justify-center text-xxs">
+                                            <i
+                                                class="fas fa-chevron-up cursor-pointer hover:text-gray-700 h-1/2 flex items-center"></i><i
+                                                class="fas fa-chevron-down cursor-pointer hover:text-gray-700 h-1/2 flex items-center"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div><label for="phone" class="block text-gray-600 mb-0.5">Landline</label><input
+                                        type="tel" id="phone" formcontrolname="phone" value=""
+                                        class="w-full p-1.5 border border-gray-300 rounded-sm"></div>
+                                <div><label for="fax" class="block text-gray-600 mb-0.5">Fax</label><input type="tel"
+                                        id="fax" formcontrolname="fax" value=""
+                                        class="w-full p-1.5 border border-gray-300 rounded-sm"></div>
+                            </div>
+                        </div>
+
+                        <!-- Category & Subject -->
+                        <div class="border border-gray-300 p-3 rounded-md text-xs">
+                            <h2 class="text-sm font-semibold text-gray-700 mb-3 flex items-center"><i
+                                    class="fas fa-tags mr-2 text-gray-500"></i> Category & Subject</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2">
+                                <!-- Main Category -->
+                                <div class="custom-dropdown-container relative">
+                                    <label for="category" class="block text-gray-600 mb-0.5 asterisk">Main
+                                        Category</label>
+                                    <div
+                                        class="dropdown-trigger flex items-center border border-gray-300 rounded-sm bg-white cursor-pointer">
+                                        <input type="text" id="category" formcontrolname="category"
+                                            placeholder="Choose One"
+                                            class="w-full p-1.5 text-xs border-none focus:ring-0 pointer-events-none"
+                                            readonly value="">
+                                        <i
+                                            class="fas fa-times dropdown-clear text-gray-400 cursor-pointer text-xs px-1 hover:text-gray-600 hidden"></i>
+                                        <i class="fas fa-chevron-down text-gray-400 text-xs px-1.5"></i>
+                                    </div>
+                                    <div class="dropdown-panel hidden">
+                                        <ul class="dropdown-list max-h-48 overflow-y-auto text-xs">
+                                            <li class="p-2 sticky top-0 bg-white border-b z-10">
+                                                <div class="relative"><input type="text" placeholder="Search..."
+                                                        class="dropdown-search w-full p-1.5 pl-7 border border-gray-200 rounded-sm text-xs focus:ring-1 focus:ring-blue-300 focus:border-blue-300"><i
+                                                        class="fas fa-search absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs"></i>
+                                                </div>
+                                            </li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Parliament</li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Projects</li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Public Relations</li>
+                                            <li class="p-2 hover:bg-blue-100 cursor-pointer">Accounts</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div> <!-- Standard Select for Sub Category -->
+                                    <label for="subCategory" class="block text-gray-600 mb-0.5">Sub Category</label>
+                                    <div class="relative"><select id="subCategory" formcontrolname="subCategory"
+                                            class="w-full p-1.5 border border-gray-300 rounded-sm appearance-none pr-8">
+                                            <option value="" selected>Choose One</option>
+                                            <option value="SUB1">Sub Category 1</option>
+                                        </select><i
+                                            class="fas fa-chevron-down absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none text-xs"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-2 custom-dropdown-container relative"> <!-- Autocomplete-like behavior -->
+                                <label for="subject"
+                                    class="block text-gray-600 mb-0.5 asterisk">Subject</label><textarea id="subject"
+                                    formcontrolname="subject" rows="2"
+                                    class="w-full p-1.5 border border-gray-300 rounded-sm"></textarea>
+                                <div class="text-right text-gray-500 text-xs mt-0.5 character-counter" data-max="1000">
+                                    Total 1000 | 1000 Character left</div>
+                                <div class="autocomplete-panel hidden">
+                                    <ul class="dropdown-list max-h-32 overflow-y-auto text-xs">
+                                        <li class="p-2 hover:bg-blue-100 cursor-pointer">Subject Suggestion 1</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <label for="remarks" class="block text-gray-600 mb-0.5">Enclosure/
+                                    Remarks</label><textarea id="remarks" formcontrolname="remarks" rows="2"
+                                    class="w-full p-1.5 border border-gray-300 rounded-sm"></textarea>
+                                <div class="text-right text-gray-500 text-xs mt-0.5 character-counter" data-max="250">
+                                    Total 250 | 250 Character left</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sticky bottom-0 bg-gray-50 p-2 border-t border-gray-300">
+                        <div class="flex flex-col sm:flex-row justify-between items-center">
+                            <label class="flex items-center text-xs text-gray-700 mb-2 sm:mb-0"><input type="checkbox"
+                                    id="acknowledgement" formcontrolname="acknowledgement"
+                                    class="form-checkbox h-3 w-3 text-blue-600"><span class="ml-1.5">Personalize
+                                    Acknowledgement</span></label>
+                            <div class="flex space-x-2">
+                                <button type="submit" formaction="/generate"
+                                    class="bg-orange-500 text-white px-3 py-1.5 rounded-sm text-xs font-semibold hover:bg-orange-600">Generate</button>
+                                <button type="submit" formaction="/generateAndSend"
+                                    class="bg-orange-500 text-white px-3 py-1.5 rounded-sm text-xs font-semibold hover:bg-orange-600">Generate
+                                    & Send</button>
+                                <button type="submit" formaction="/generateAndCopy"
+                                    class="bg-orange-500 text-white px-3 py-1.5 rounded-sm text-xs font-semibold hover:bg-orange-600">Generate
+                                    & Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </form> <!-- End of eofficeForm -->
+
+                <!-- Modal for Min./Dept./Others Search -->
+                <div id="minDeptModal"
+                    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                    <div class="bg-white rounded-md shadow-xl w-full max-w-2xl max-h-[80vh] flex flex-col">
+                        <div class="flex justify-between items-center p-3 border-b bg-blue-600 text-white rounded-t-md">
+                            <h3 class="text-sm font-semibold">Search Min./Dept./Others</h3>
+                            <button id="closeMinDeptModal"
+                                class="text-white hover:text-gray-300 text-xl leading-none">×</button>
+                        </div>
+                        <div class="p-3 border-b">
+                            <div class="relative"><input type="text" id="minDeptModalSearchInput"
+                                    placeholder="Search here..."
+                                    class="w-full p-2 border border-gray-300 rounded-sm pl-8 text-xs"><i
+                                    class="fas fa-search absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            </div>
+                        </div>
+                        <div class="p-3 overflow-y-auto flex-grow">
+                            <ul class="modal-list space-y-0.5 text-xs">
+                                <li
+                                    class="p-2 border-b border-gray-100 hover:bg-gray-50 cursor-pointer flex items-center">
+                                    <input type="radio" name="minDeptSelection"
+                                        class="form-radio h-3 w-3 text-blue-600 mr-2.5"
+                                        value="Ministry of Consumer Affairs, Food and Public Distribution => Department of Food and Public Distribution"><span>Ministry
+                                        of Consumer Affairs, Food and Public Distribution => Department of Food and
+                                        Public Distribution</span></li>
+                                <li
+                                    class="p-2 border-b border-gray-100 hover:bg-gray-50 cursor-pointer flex items-center">
+                                    <input type="radio" name="minDeptSelection"
+                                        class="form-radio h-3 w-3 text-blue-600 mr-2.5"
+                                        value="Ministry of Corporate Affairs"><span>Ministry of Corporate Affairs</span>
+                                </li>
+                                <li
+                                    class="p-2 border-b border-gray-100 hover:bg-gray-50 cursor-pointer flex items-center">
+                                    <input type="radio" name="minDeptSelection"
+                                        class="form-radio h-3 w-3 text-blue-600 mr-2.5" value="DG SIGS"><span>DG
+                                        SIGS</span></li>
+                                <script> // Dummy items for modal scroll
+                                    const modalListUl = document.querySelector('#minDeptModal ul.modal-list'); 
+                                    if (modalListUl) { for (let i = 0; i < 30; i++) { const li = document.createElement('li'); li.className = 'p-2 border-b border-gray-100 hover:bg-gray-50 cursor-pointer flex items-center'; li.innerHTML = `<input type="radio" name="minDeptSelection" class="form-radio h-3 w-3 text-blue-600 mr-2.5" value="Department Option ${i + 1}"><span>Department Option ${i + 1}</span>`; modalListUl.appendChild(li); } }
+                                </script>
+                            </ul>
+                        </div>
+                        <div class="flex justify-end p-3 border-t bg-gray-50 rounded-b-md">
+                            <button id="minDeptOkButton"
+                                class="bg-orange-500 text-white px-4 py-1.5 rounded-sm text-xs font-semibold hover:bg-orange-600 mr-2">OK</button>
+                            <button id="minDeptCancelButton"
+                                class="bg-gray-300 text-gray-700 px-4 py-1.5 rounded-sm text-xs font-semibold hover:bg-gray-400">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileUpload = document.getElementById('fileUpload');
+            const removeFileButton = document.getElementById('removeFile');
+            const previewPlaceholder = document.getElementById('previewPlaceholder');
+            const filePreviewArea = document.getElementById('filePreviewArea');
+            const documentIdDisplay = document.getElementById('documentIdDisplay');
+            const documentIdSpan = documentIdDisplay.querySelector('span');
+
+            const docSearchInput = document.getElementById('docSearchInput');
+            const docSearchButton = document.getElementById('docSearchButton');
+            const searchResultsContainer = document.getElementById('searchResultsContainer'); // Added
+            const baseUrl = "http://localhost:8000";
+
+            const eofficeForm = document.getElementById('eofficeForm');
+            const processDocumentButton = document.getElementById('processDocumentButton');
+
+
+            // --- File Upload Logic ---
+            fileUpload.addEventListener('change', function (event) {
+                const file = event.target.files[0];
+                if (file) {
+                    if (file.type === "application/pdf" && file.size <= 50 * 1024 * 1024) {
+                        previewPlaceholder.textContent = `Selected: ${file.name}. Uploading...`;
+                        previewPlaceholder.style.display = 'block';
+                        filePreviewArea.innerHTML = ''; // Clear previous preview
+                        removeFileButton.style.display = 'inline-block';
+                        documentIdDisplay.style.display = 'none';
+                        searchResultsContainer.classList.add('hidden'); // Hide search results if a file is uploaded
+
+                        const formData = new FormData();
+                        formData.append('file', file);
+
+                        fetch(`${baseUrl}/upload`, { method: 'POST', body: formData })
+                            .then(response => {
+                                if (!response.ok) {
+                                    return response.json().then(err => { throw new Error(err.detail || `Upload failed with status: ${response.status}`) });
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log('Upload successful:', data);
+                                if (data.documentId) {
+                                    documentIdSpan.textContent = data.documentId;
+                                    documentIdDisplay.style.display = 'block';
+                                    previewPlaceholder.textContent = `Uploaded: ${file.name}`; // Keep this or let displayPdfPreview handle
+                                    displayPdfPreview(file); // Preview the uploaded file directly
+                                } else {
+                                    throw new Error("Document ID not returned from upload.");
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Upload error:', error);
+                                previewPlaceholder.textContent = `Upload failed: ${error.message}. Please try again.`;
+                                previewPlaceholder.style.display = 'block';
+                                removeFile();
+                            });
+                    } else {
+                        alert('Invalid file. Please upload a PDF smaller than 50MB.');
+                        removeFile();
+                    }
+                }
+            });
+
+            removeFileButton.addEventListener('click', removeFile);
+
+            function removeFile() {
+                fileUpload.value = '';
+                previewPlaceholder.textContent = 'File preview will appear here.';
+                previewPlaceholder.style.display = 'block';
+                removeFileButton.style.display = 'none';
+                documentIdDisplay.style.display = 'none';
+                documentIdSpan.textContent = '';
+                filePreviewArea.innerHTML = ''; // Clear preview
+                searchResultsContainer.classList.add('hidden'); // Hide search results
+                console.log('File removed.');
+            }
+
+            function displayPdfPreview(fileOrId) {
+                filePreviewArea.innerHTML = ''; // Clear previous before adding new
+                previewPlaceholder.style.display = 'none'; // Hide placeholder when preview is shown
+
+                const previewElement = document.createElement('iframe');
+                previewElement.style.width = '100%';
+                previewElement.style.height = '100%';
+                previewElement.style.border = 'none';
+
+                if (typeof fileOrId === 'string') { // It's a document ID
+                    fetch(`${baseUrl}/document?id=${encodeURIComponent(fileOrId)}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`Could not load document preview: ${response.status}`);
+                            }
+                            return response.blob();
+                        })
+                        .then(blob => {
+                            const objectURL = URL.createObjectURL(blob);
+                            previewElement.src = objectURL;
+                            filePreviewArea.appendChild(previewElement);
+                            console.log(`Previewing document by ID: ${fileOrId}`);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching document for preview:', error);
+                            previewPlaceholder.textContent = `Could not load preview for ID: ${fileOrId}. ${error.message}`;
+                            previewPlaceholder.style.display = 'block';
+                        });
+                } else if (fileOrId instanceof File) { // It's a File object
+                    const objectURL = URL.createObjectURL(fileOrId);
+                    previewElement.src = objectURL;
+                    filePreviewArea.appendChild(previewElement);
+                    console.log(`Previewing uploaded file: ${fileOrId.name}`);
+                }
+            }
+
+            // --- Document Search Logic ---
+            docSearchButton.addEventListener('click', function () {
+                const query = docSearchInput.value.trim();
+                searchResultsContainer.innerHTML = ''; // Clear previous results
+                searchResultsContainer.classList.add('hidden'); // Hide it initially for new search
+
+                if (query) {
+                    docSearchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                    docSearchButton.disabled = true;
+
+                    fetch(`${baseUrl}/search?query=${encodeURIComponent(query)}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.json().then(err => { throw new Error(err.detail || `Search failed with status: ${response.status}`) });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Search results:', data);
+                            if (data.results && data.results.length > 0) {
+                                const ul = document.createElement('ul');
+                                data.results.forEach(result => {
+                                    const li = document.createElement('li');
+                                    li.className = 'p-2 hover:bg-blue-100 cursor-pointer border-b text-xs last:border-b-0';
+                                    li.textContent = result.name + (result.original_name && result.original_name !== result.name ? ` (${result.original_name})` : '');
+                                    li.dataset.docId = result.id;
+
+                                    li.addEventListener('click', function() {
+                                        const selectedDocId = this.dataset.docId;
+                                        documentIdSpan.textContent = selectedDocId;
+                                        documentIdDisplay.style.display = 'block';
+                                        displayPdfPreview(selectedDocId);
+                                        searchResultsContainer.innerHTML = ''; // Clear list
+                                        searchResultsContainer.classList.add('hidden'); // Hide list
+                                        // docSearchInput.value = ''; // Optional: clear search input
+                                    });
+                                    ul.appendChild(li);
+                                });
+                                searchResultsContainer.appendChild(ul);
+                                searchResultsContainer.classList.remove('hidden'); // Show populated list
+
+                                // Reset preview until an item is clicked
+                                filePreviewArea.innerHTML = '';
+                                previewPlaceholder.textContent = 'Select a document from the search results above.';
+                                previewPlaceholder.style.display = 'block';
+                                documentIdDisplay.style.display = 'none';
+                                documentIdSpan.textContent = '';
+
+                            } else {
+                                previewPlaceholder.textContent = 'No documents found for: ' + query;
+                                previewPlaceholder.style.display = 'block';
+                                documentIdDisplay.style.display = 'none';
+                                documentIdSpan.textContent = '';
+                                filePreviewArea.innerHTML = ''; // Clear preview area
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Search error:', error);
+                            previewPlaceholder.textContent = `Search failed: ${error.message}.`;
+                            previewPlaceholder.style.display = 'block';
+                        })
+                        .finally(() => {
+                            docSearchButton.innerHTML = '<i class="fas fa-search"></i>';
+                            docSearchButton.disabled = false;
+                        });
+                } else {
+                    alert('Please enter a search term.');
+                }
+            });
+
+
+            // --- Form Submission ---
+            eofficeForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const formData = new FormData(eofficeForm);
+                const data = Object.fromEntries(formData.entries());
+                data.documentId = documentIdSpan.textContent;
+
+                eofficeForm.querySelectorAll('.custom-dropdown-container input[type="text"][formcontrolname]').forEach(ddInput => {
+                    const formControlName = ddInput.getAttribute('formcontrolname');
+                    if (formControlName) { 
+                        data[formControlName] = ddInput.value;
+                    }
+                });
+
+                const submitter = event.submitter;
+                let action = "Unknown Action";
+                if (submitter && submitter.formAction) {
+                    action = new URL(submitter.formAction).pathname;
+                }
+
+                console.log(`Form Submitted (${action}):`, data);
+                alert(`Form data for "${action}" logged to console. Document ID: ` + (data.documentId || "N/A"));
+            });
+
+            document.querySelectorAll('.clear-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const inputField = this.closest('.input-with-actions').querySelector('input[type="text"]');
+                    if (inputField) {
+                        inputField.value = '';
+                        inputField.focus();
+                    }
+                });
+            });
+
+            // --- Process Document Button Logic ---
+            if (processDocumentButton) {
+                processDocumentButton.addEventListener('click', async function () {
+                    const currentDocumentId = documentIdSpan.textContent;
+                    if (!currentDocumentId) {
+                        alert('Please upload or search for a document first.');
+                        return;
+                    }
+
+                    const formSchema = {}; // Will be { "fieldName": { type: "elementType" } }
+                    Array.from(eofficeForm.elements).forEach(element => {
+                        const formControlName = element.getAttribute('formcontrolname');
+                        if (formControlName) {
+                            let elementType;
+                            const tagName = element.tagName.toLowerCase();
+                            if (tagName === 'input') {
+                                elementType = element.type.toLowerCase();
+                            } else {
+                                elementType = tagName; // e.g., select, textarea
+                            }
+                            formSchema[formControlName] = { type: elementType };
+                            // Future: Add more details if needed by AI
+                            // e.g., formSchema[formControlName].required = element.hasAttribute('required');
+                            // if (elementType === 'select' && element.options.length > 0) {
+                            //     formSchema[formControlName].options = Array.from(element.options).map(opt => opt.value || opt.text);
+                            // }
+                        }
+                    });
+                    
+                    const originalButtonText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+                    this.disabled = true;
+
+                    try {
+                        const response = await fetch(`${baseUrl}/process`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', },
+                            body: JSON.stringify({ documentId: currentDocumentId, form_schema: formSchema }),
+                        });
+
+                        if (!response.ok) {
+                            const errorData = await response.json().catch(() => ({ detail: "Unknown error during processing." }));
+                            throw new Error(`Processing failed: ${response.status} ${errorData.detail || response.statusText}`);
+                        }
+
+                        const result = await response.json();
+                        console.log('Processing result:', result);
+                        console.log('Form schema sent:', formSchema);
+
+                        if (result.extracted_data_per_page) {
+                            let combinedData = {};
+                            if (Array.isArray(result.extracted_data_per_page)) {
+                                result.extracted_data_per_page.forEach(pageData => {
+                                    if (typeof pageData === 'object' && pageData !== null) {
+                                        Object.assign(combinedData, pageData);
+                                    }
+                                });
+                            } else if (typeof result.extracted_data_per_page === 'object' && result.extracted_data_per_page !== null) {
+                                combinedData = result.extracted_data_per_page;
+                            }
+
+                            let fieldsFilledCount = 0;
+                            for (const formControlNameInResponse in combinedData) {
+                                if (Object.hasOwnProperty.call(combinedData, formControlNameInResponse)) {
+                                    let element = eofficeForm.querySelector(`[formcontrolname="${formControlNameInResponse}"]`);
+                                    
+                                    const valueToFill = combinedData[formControlNameInResponse];
+
+                                    if (element) {
+                                        const schemaDetails = formSchema[formControlNameInResponse];
+                                        let elementTypeFromSchema = null;
+
+                                        if (schemaDetails && typeof schemaDetails.type === 'string') {
+                                            elementTypeFromSchema = schemaDetails.type;
+                                        }
+
+                                        if (!elementTypeFromSchema) {
+                                            console.warn(`No schema type found or invalid schema for '${formControlNameInResponse}'. Skipping population for this field.`);
+                                            continue;
+                                        }
+
+                                        const customDropdownContainer = element.closest('.custom-dropdown-container');
+                                        if (customDropdownContainer && (elementTypeFromSchema === 'text' || elementTypeFromSchema === 'tel' || elementTypeFromSchema === 'email')) {
+                                            const displayInput = customDropdownContainer.querySelector('.dropdown-trigger input[type="text"]');
+                                            const panel = customDropdownContainer.querySelector('.dropdown-panel');
+                                            const list = panel ? panel.querySelector('.dropdown-list') : null;
+                                            const clearBtn = customDropdownContainer.querySelector('.dropdown-clear');
+
+                                            if (displayInput) {
+                                                displayInput.value = valueToFill;
+                                                if (clearBtn) clearBtn.classList.toggle('hidden', !valueToFill);
+
+                                                if (list) { 
+                                                    list.querySelectorAll('li').forEach(li => {
+                                                        li.classList.remove('dropdown-item-selected');
+                                                        if (li.textContent.trim() === String(valueToFill).trim()) {
+                                                            li.classList.add('dropdown-item-selected');
+                                                        }
+                                                    });
+                                                }
+                                                fieldsFilledCount++;
+                                                console.log(`Populated custom dropdown/autocomplete '${formControlNameInResponse}' with value: '${valueToFill}'`);
+                                            }
+                                        } else if (elementTypeFromSchema === 'radio') {
+                                            const radioToSelect = eofficeForm.querySelector(`input[name="${element.name}"][value="${valueToFill}"]`);
+                                            if (radioToSelect) {
+                                                radioToSelect.checked = true;
+                                                fieldsFilledCount++;
+                                                console.log(`Populated radio group '${element.name}' with value: '${valueToFill}'`);
+                                            } else {
+                                                console.warn(`Radio button with name '${element.name}' and value '${valueToFill}' not found for AI population.`);
+                                            }
+                                        } else if (elementTypeFromSchema === 'checkbox') {
+                                            element.checked = Boolean(valueToFill);
+                                            fieldsFilledCount++;
+                                            console.log(`Populated checkbox '${formControlNameInResponse}' -> CHECKED: ${element.checked}`);
+                                        } else if (elementTypeFromSchema === 'select') {
+                                            element.value = valueToFill;
+                                            const event = new Event('change', { bubbles: true });
+                                            element.dispatchEvent(event);
+                                            fieldsFilledCount++;
+                                            console.log(`Populated select '${formControlNameInResponse}' with value: '${valueToFill}'`);
+                                        } else { // Standard inputs (text, date, textarea, etc.)
+                                            element.value = valueToFill;
+                                            const inputEvent = new Event('input', { bubbles: true }); // For char counters etc.
+                                            element.dispatchEvent(inputEvent);
+                                            const changeEvent = new Event('change', { bubbles: true }); // For some frameworks/listeners
+                                            element.dispatchEvent(changeEvent);
+                                            fieldsFilledCount++;
+                                            console.log(`Populated field '${formControlNameInResponse}' (type: ${elementTypeFromSchema}) with value: '${valueToFill}'`);
+                                        }
+                                    } else {
+                                        console.warn(`Element for formControlName '${formControlNameInResponse}' (value: '${valueToFill}') not found in the form.`);
+                                    }
+                                }
+                            }
+                            if (fieldsFilledCount > 0) {
+                                alert(`Document processed. ${fieldsFilledCount} fields were populated based on AI output.`);
+                            } else {
+                                alert('Document processed, but no matching fields were populated. Check AI output and form field definitions.');
+                            }
+                        } else {
+                            alert('Processing completed, but no data was extracted or returned in the expected format.');
+                        }
+
+                    } catch (error) {
+                        console.error('Error processing document:', error);
+                        alert(`Error: ${error.message}`);
+                    } finally {
+                        processDocumentButton.innerHTML = originalButtonText;
+                        processDocumentButton.disabled = false;
+                    }
+                });
+            } else {
+                console.warn("Process Document Button not found in the DOM.");
+            }
+
+            function setDefaultDates() {
+                const today = new Date().toISOString().split('T')[0];
+                const diaryDateEl = document.getElementById('diaryDate');
+                const receivedDateEl = document.getElementById('receivedDate');
+                if (diaryDateEl) diaryDateEl.value = today;
+                if (receivedDateEl) receivedDateEl.value = today;
+            }
+            setDefaultDates();
+
+            document.querySelectorAll('.custom-dropdown-container').forEach(container => {
+                const trigger = container.querySelector('.dropdown-trigger');
+                const displayInput = trigger.querySelector('input[type="text"]');
+                const clearButton = trigger.querySelector('.dropdown-clear');
+                const panel = container.querySelector('.dropdown-panel, .autocomplete-panel');
+                const list = panel ? panel.querySelector('.dropdown-list') : null;
+                const searchInput = panel ? panel.querySelector('.dropdown-search') : null;
+
+                trigger.addEventListener('click', (event) => {
+                    if (event.target.classList.contains('dropdown-clear')) return;
+                    if (!panel) return; 
+
+                    const isCurrentlyHidden = panel.classList.contains('hidden');
+                    document.querySelectorAll('.custom-dropdown-container .dropdown-panel:not(.hidden), .custom-dropdown-container .autocomplete-panel:not(.hidden)').forEach(otherPanel => {
+                        if (otherPanel !== panel) { 
+                            otherPanel.classList.add('hidden');
+                        }
+                    });
+                    if (isCurrentlyHidden) {
+                        panel.classList.remove('hidden');
+                        if (searchInput) {
+                            searchInput.value = '';
+                            filterDropdownList(searchInput, list);
+                            searchInput.focus();
+                        }
+                    } else {
+                        panel.classList.add('hidden');
+                    }
+                });
+
+                if (list) {
+                    list.addEventListener('click', (event) => {
+                        const listItem = event.target.closest('li');
+                        if (listItem && !listItem.querySelector('.dropdown-search')) { 
+                            displayInput.value = listItem.textContent.trim();
+                            if (panel) panel.classList.add('hidden');
+                            if (clearButton) clearButton.classList.remove('hidden');
+                            list.querySelectorAll('li').forEach(li => li.classList.remove('dropdown-item-selected'));
+                            listItem.classList.add('dropdown-item-selected');
+                            displayInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        }
+                    });
+                }
+
+                if (clearButton) {
+                    clearButton.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        displayInput.value = '';
+                        if (list) list.querySelectorAll('li').forEach(li => li.classList.remove('dropdown-item-selected'));
+                        clearButton.classList.add('hidden');
+                        displayInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        if (panel) panel.classList.add('hidden'); 
+                    });
+                }
+
+                if (searchInput && list) {
+                    searchInput.addEventListener('input', () => filterDropdownList(searchInput, list));
+                }
+            });
+
+            function filterDropdownList(searchInput, listElement) {
+                if (!listElement) return;
+                const filter = searchInput.value.toLowerCase();
+                const items = listElement.querySelectorAll('li');
+                items.forEach(item => {
+                    // If item contains a search input (like in category dropdown), don't hide it
+                    if (item.querySelector('.dropdown-search')) {
+                         item.style.display = ''; return;
+                    }
+                    // If item contains a radio button (like in modal), filter based on span text
+                    const textElement = item.querySelector('span') || item;
+                    const text = textElement.textContent.toLowerCase();
+                    item.style.display = text.includes(filter) ? '' : 'none';
+                });
+            }
+
+            document.addEventListener('click', (event) => {
+                // Close custom dropdowns
+                document.querySelectorAll('.custom-dropdown-container').forEach(container => {
+                    if (!container.contains(event.target)) {
+                        const panel = container.querySelector('.dropdown-panel, .autocomplete-panel');
+                        if (panel) panel.classList.add('hidden');
+                    }
+                });
+                // Close search results panel
+                if (searchResultsContainer && !searchResultsContainer.classList.contains('hidden')) {
+                    if (!docSearchInput.contains(event.target) && !searchResultsContainer.contains(event.target) && !docSearchButton.contains(event.target)) {
+                        searchResultsContainer.classList.add('hidden');
+                    }
+                }
+            });
+
+            document.querySelectorAll('.character-counter').forEach(counterElement => {
+                const formElement = counterElement.previousElementSibling;
+                const maxChars = parseInt(counterElement.dataset.max);
+                const updateCounter = () => {
+                    if (!formElement) return;
+                    const currentLength = formElement.value.length;
+                    const remaining = maxChars - currentLength;
+                    counterElement.textContent = `Total ${maxChars} | ${remaining} Character left`;
+                };
+                if (formElement) {
+                    formElement.addEventListener('input', updateCounter);
+                    updateCounter();
+                }
+            });
+
+            const minDeptModalSearchInput = document.getElementById('minDeptModalSearchInput');
+            const modalListElement = document.querySelector('#minDeptModal ul.modal-list'); 
+            if (minDeptModalSearchInput && modalListElement) { 
+                minDeptModalSearchInput.addEventListener('input', () => {
+                    filterDropdownList(minDeptModalSearchInput, modalListElement); 
+                });
+            }
+
+            const openMinDeptModalButton = document.getElementById('openMinDeptModal');
+            const minDeptModal = document.getElementById('minDeptModal');
+            const closeMinDeptModalButton = document.getElementById('closeMinDeptModal');
+            const minDeptOkButton = document.getElementById('minDeptOkButton');
+            const minDeptCancelButton = document.getElementById('minDeptCancelButton');
+            const orgLevelInput = document.getElementById('orgLevel');
+
+            if (openMinDeptModalButton && minDeptModal) {
+                openMinDeptModalButton.addEventListener('click', () => {
+                    minDeptModal.classList.remove('hidden');
+                    if (minDeptModalSearchInput) {
+                        minDeptModalSearchInput.value = ''; // Clear previous search
+                        filterDropdownList(minDeptModalSearchInput, modalListElement); // Show all items
+                        minDeptModalSearchInput.focus();
+                    }
+                });
+            }
+            if (closeMinDeptModalButton && minDeptModal) {
+                closeMinDeptModalButton.addEventListener('click', () => minDeptModal.classList.add('hidden'));
+            }
+            if (minDeptCancelButton && minDeptModal) {
+                minDeptCancelButton.addEventListener('click', () => minDeptModal.classList.add('hidden'));
+            }
+            if (minDeptOkButton && minDeptModal && orgLevelInput && modalListElement) {
+                minDeptOkButton.addEventListener('click', () => {
+                    const selectedRadio = modalListElement.querySelector('input[name="minDeptSelection"]:checked');
+                    if (selectedRadio) {
+                        orgLevelInput.value = selectedRadio.value;
+                        orgLevelInput.dispatchEvent(new Event('input', { bubbles: true })); 
+                    }
+                    minDeptModal.classList.add('hidden');
+                });
+            }
+            if (minDeptModal) {
+                minDeptModal.addEventListener('click', (event) => {
+                    if (event.target === minDeptModal) {
+                        minDeptModal.classList.add('hidden');
+                    }
+                });
+            }
+
+        }); // End of DOMContentLoaded
+    </script>
+</body>
+
+</html>

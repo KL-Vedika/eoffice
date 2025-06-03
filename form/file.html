@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Replica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0; /* Light gray background like the app */
+        }
+        .document-container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            max-width: 800px; /* A4-ish width */
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative; /* For watermark */
+            overflow: hidden; /* To contain watermark if it's too big */
+        }
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+        .header-info .left p, .header-info .right p {
+            margin: 0 0 5px 0;
+        }
+        .header-info .right {
+            text-align: right;
+        }
+        .main-title {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .main-title h2 {
+            margin: 0;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        .subject {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-decoration: underline;
+            font-size: 1em;
+        }
+        ol {
+            padding-left: 20px; /* Standard indent for ordered list */
+            margin-bottom: 20px;
+        }
+        ol li {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .flowchart {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Or space-around for more spacing */
+            margin-top: 15px;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            flex-wrap: wrap; /* Allow wrapping if too many items */
+        }
+        .flowchart-step {
+            border: 1px solid #000;
+            padding: 8px 12px;
+            text-align: center;
+            font-size: 0.85em;
+            min-width: 80px; /* Ensure some minimum width */
+            margin: 5px;
+        }
+        .flowchart-arrow {
+            font-size: 1.5em;
+            margin: 0 5px;
+            color: #333;
+        }
+        .signature-block {
+            margin-top: 40px;
+            text-align: right; /* As per the image, it's on the right */
+        }
+        .signature-block p {
+            margin: 2px 0;
+            font-size: 0.9em;
+        }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 7em; /* Adjust as needed */
+            color: rgba(0, 0, 0, 0.08); /* Very light gray */
+            font-weight: bold;
+            z-index: 0; /* Behind content */
+            pointer-events: none; /* So it doesn't interfere with text selection */
+            white-space: nowrap;
+        }
+
+        /* Specific for the watermark text */
+        .watermark-text {
+             /* Example, adjust to match image */
+            font-family: 'Arial Black', Gadget, sans-serif; /* A bolder sans-serif */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="document-container">
+        <div class="watermark">
+            <span class="watermark-text">31.11.Y-2023 AM</span>
+        </div>
+
+        <div class="header-info">
+            <div class="left">
+                <p>Tele : 39258</p>
+                <p>0331921A/B/03568/Gen/DDG IT (Proj)</p>
+            </div>
+            <div class="right">
+                <p>Dt in digital sign</p>
+            </div>
+        </div>
+
+        <div class="main-title">
+            <h2>INTEGRATED HQ OF MoD (ARMY)</h2>
+            <h2>DIRECTORATE GENERAL OF INFORMATION SYSTEMS (DDGIT)</h2>
+        </div>
+
+        <p class="subject">UPLOADING OF JSS DOC IN KMS</p>
+
+        <ol>
+            <li>Pl ref your office S No B/80219/Indig/MGS/EME (Std) dt 24 Apr 2025.</li>
+            <li>The Joint Sservice Specification (JSS) are imp std docus published by Dte of Std to facilitate proc, QA & mfr through standardisation. Therefore, analysing the importance online link of the uploaded docus have been created in eOffice.</li>
+            <li>
+                The JSS can be accessed as well as downloaded by Line Dtes through fwg path.
+                <div class="flowchart">
+                    <div class="flowchart-step">Login to<br>'eOffice'</div>
+                    <span class="flowchart-arrow">→</span>
+                    <div class="flowchart-step">Goto 'KMS'</div>
+                    <span class="flowchart-arrow">→</span>
+                    <div class="flowchart-step">Click on<br>'Collection'</div>
+                    <span class="flowchart-arrow">→</span>
+                    <div class="flowchart-step">Click on<br>'MGS'</div>
+                    <span class="flowchart-arrow">→</span>
+                    <div class="flowchart-step">Click on<br>'ADG EM'</div>
+                    <span class="flowchart-arrow">→</span>
+                    <div class="flowchart-step">Click on<br>'List of JSS'</div>
+                </div>
+            </li>
+            <li>For info pl.</li>
+        </ol>
+
+        <div class="signature-block">
+            <p>(Deepak Bhagwani)</p>
+            <p>Lt Col</p>
+            <p>GSO-1 (Proj)</p>
+            <p>for DDG IT</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
