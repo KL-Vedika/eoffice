@@ -260,4 +260,4 @@ if __name__ == "__main__":
     # from models import Base
     # Base.metadata.create_all(bind=engine) # Creates tables based on SQLAlchemy models
 
-    uvicorn.run("app:app", host="localhost", port=8000, reload=True)
+    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
