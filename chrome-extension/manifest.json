@@ -1,14 +1,15 @@
 {
   "manifest_version": 3,
   "name": "Form Filler from Document",
-  "version": "1.1",
-  "description": "Gets Document ID and schema from current page, data from API, and fills the page's form.",
+  "version": "1.2",
+  "description": "Gets Document ID and schema from current page, data from API, and fills the page's form. API endpoint is configurable.",
   "permissions": [
     "activeTab",
-    "scripting"
+    "scripting",
+    "storage"
   ],
   "host_permissions": [
-    "http://localhost:8000/*"
+    "<all_urls>"
   ],
   "action": {
     "default_popup": "popup.html",

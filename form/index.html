@@ -68,15 +68,12 @@
             color: white !important;
         }
 
-        /* Ensure preview area takes up available space */
         #filePreviewArea {
             flex-grow: 1;
             position: relative;
-            /* For watermark to be behind */
         }
 
-        #filePreviewArea iframe,
-        #filePreviewArea embed {
+        #filePreviewArea iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -163,7 +160,7 @@
                             <span class="text-red-500 text-xs">Pdf Only <= 50 MB <span class="font-bold">*</span></span>
                         </div>
                         
-                        <div class="relative"> <!-- Wrapper for search input and results panel -->
+                        <div class="relative">
                             <div class="flex items-center space-x-2">
                                 <input type="text" id="docSearchInput" placeholder="Search Document ID or Content..."
                                     class="flex-grow p-1.5 border border-gray-300 rounded-l-sm text-xs">
@@ -173,18 +170,8 @@
                                 </button>
                             </div>
                             <div id="searchResultsContainer" class="autocomplete-panel hidden mt-1 max-h-60 overflow-y-auto z-20">
-                                <!-- Search results will be populated here by JavaScript -->
                             </div>
                         </div>
-
-                        <div id="documentIdDisplay" class="text-xs text-gray-600 mt-1 p-1 bg-gray-50 border rounded-sm"
-                            style="display: none;">
-                            Document ID: <span class="font-semibold text-blue-600"></span>
-                        </div>
-                        <button id="processDocumentButton"
-                            class="w-full mt-2 bg-green-500 text-white px-3 py-1.5 rounded text-xs font-semibold hover:bg-green-600 flex items-center justify-center">
-                            <i class="fas fa-cogs mr-2"></i>Process Document with AI
-                        </button>
                     </div>
                     <div id="filePreviewArea" class="flex-grow relative">
                         <div id="previewPlaceholder"
@@ -195,10 +182,8 @@
                     </div>
                 </div>
 
-                <!-- Right Pane (Form) -->
                 <form id="eofficeForm" class="w-1/2 flex flex-col bg-white border border-gray-300 overflow-y-auto">
                     <div class="p-3 space-y-4 flex-grow">
-                        <!-- Nature Details -->
                         <div class="border border-gray-300 p-3 rounded-md">
                             <h2 class="text-sm font-semibold text-gray-700 mb-2 flex items-center"><i
                                     class="fas fa-leaf mr-2 text-gray-500"></i> Nature Details</h2>
@@ -214,7 +199,6 @@
                             </div>
                         </div>
 
-                        <!-- Diary Details -->
                         <div class="border border-gray-300 p-3 rounded-md">
                             <h2 class="text-sm font-semibold text-gray-700 mb-3 flex items-center"><i
                                     class="fas fa-book mr-2 text-gray-500"></i> Diary Details</h2>
@@ -223,9 +207,7 @@
                                     <label for="diaryDate" class="block text-gray-600 mb-0.5">Diary Date</label>
                                     <input type="date" id="diaryDate" formcontrolname="diaryDate" value=""
                                         class="w-full p-1.5 border border-gray-300 rounded-sm bg-gray-100">
-                                    <!-- Readonly removed for JS to set -->
                                 </div>
-                                <!-- Forms Of Communications -->
                                 <div class="custom-dropdown-container relative">
                                     <label for="comms-form-input" class="block text-gray-600 mb-0.5 asterisk">Forms Of
                                         Communications</label>
@@ -254,7 +236,6 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <!-- Language -->
                                 <div class="custom-dropdown-container relative">
                                     <label for="language-input" class="block text-gray-600 mb-0.5">Language</label>
                                     <div
@@ -300,7 +281,6 @@
                                     <button type="button"
                                         class="clear-btn absolute right-1 top-1/2 transform -translate-y-1/2 mt-2.5 text-gray-400 hover:text-gray-600 text-xs leading-none">×</button>
                                 </div>
-                                <!-- Delivery Mode -->
                                 <div class="custom-dropdown-container relative">
                                     <label for="deliveryMode" class="block text-gray-600 mb-0.5 asterisk">Delivery
                                         Mode</label>
@@ -333,7 +313,6 @@
                                         Number</label><input type="text" id="deliveryModeNo"
                                         formcontrolname="deliveryModeNo" value=""
                                         class="w-full p-1.5 border border-gray-300 rounded-sm"></div>
-                                <!-- Sender Type -->
                                 <div class="custom-dropdown-container relative">
                                     <label for="sender" class="block text-gray-600 mb-0.5">Sender Type</label>
                                     <div
@@ -352,7 +331,6 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <!-- VIP -->
                                 <div class="custom-dropdown-container relative md:col-span-1">
                                     <label for="vipType" class="block text-gray-600 mb-0.5">VIP</label>
                                     <div
@@ -375,7 +353,6 @@
                             </div>
                         </div>
 
-                        <!-- Contact Details -->
                         <div class="border border-gray-300 p-3 rounded-md text-xs">
                             <div class="flex justify-between items-center mb-3">
                                 <h2 class="text-sm font-semibold text-gray-700 flex items-center"><i
@@ -397,7 +374,6 @@
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-12 gap-x-3 gap-y-2 mt-2 items-end">
                                 <div class="md:col-span-5 custom-dropdown-container relative">
-                                    <!-- Autocomplete-like behavior can be built here -->
                                     <label for="name" class="block text-gray-600 mb-0.5 partial-asterisk">Name</label>
                                     <div class="flex"><input type="text" id="name" formcontrolname="name" value=""
                                             class="w-full p-1.5 border border-gray-300 rounded-l-sm"><button
@@ -417,7 +393,7 @@
                                         type="text" id="designation" formcontrolname="designation" value=""
                                         class="w-full p-1.5 border border-gray-300 rounded-sm"></div>
                             </div>
-                            <div class="mt-2 custom-dropdown-container relative"> <!-- Autocomplete-like behavior -->
+                            <div class="mt-2 custom-dropdown-container relative">
                                 <label for="organisation" class="block text-gray-600 mb-0.5">Organization</label><input
                                     type="text" id="organisation" formcontrolname="organisation" value=""
                                     class="w-full p-1.5 border border-gray-300 rounded-sm">
@@ -444,7 +420,6 @@
                                     Total 1000 | 1000 Character left</div>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-12 gap-x-3 gap-y-2 mt-2 items-end">
-                                <!-- Country -->
                                 <div class="custom-dropdown-container relative md:col-span-3">
                                     <label for="country" class="block text-gray-600 mb-0.5">Country</label>
                                     <div
@@ -464,7 +439,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="md:col-span-3"> <!-- Standard Select for State -->
+                                <div class="md:col-span-3">
                                     <label for="state" class="block text-gray-600 mb-0.5">State</label>
                                     <div class="relative"><select id="state" formcontrolname="state"
                                             class="w-full p-1.5 border border-gray-300 rounded-sm appearance-none pr-8">
@@ -476,7 +451,6 @@
                                     </div>
                                 </div>
                                 <div class="md:col-span-6 custom-dropdown-container relative">
-                                    <!-- Autocomplete-like behavior -->
                                     <label for="cityName" class="block text-gray-600 mb-0.5">City/District</label><input
                                         type="text" id="cityName" formcontrolname="cityName" value=""
                                         class="w-full p-1.5 border border-gray-300 rounded-sm">
@@ -509,12 +483,10 @@
                             </div>
                         </div>
 
-                        <!-- Category & Subject -->
                         <div class="border border-gray-300 p-3 rounded-md text-xs">
                             <h2 class="text-sm font-semibold text-gray-700 mb-3 flex items-center"><i
                                     class="fas fa-tags mr-2 text-gray-500"></i> Category & Subject</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2">
-                                <!-- Main Category -->
                                 <div class="custom-dropdown-container relative">
                                     <label for="category" class="block text-gray-600 mb-0.5 asterisk">Main
                                         Category</label>
@@ -543,7 +515,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div> <!-- Standard Select for Sub Category -->
+                                <div>
                                     <label for="subCategory" class="block text-gray-600 mb-0.5">Sub Category</label>
                                     <div class="relative"><select id="subCategory" formcontrolname="subCategory"
                                             class="w-full p-1.5 border border-gray-300 rounded-sm appearance-none pr-8">
@@ -554,7 +526,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-2 custom-dropdown-container relative"> <!-- Autocomplete-like behavior -->
+                            <div class="mt-2 custom-dropdown-container relative">
                                 <label for="subject"
                                     class="block text-gray-600 mb-0.5 asterisk">Subject</label><textarea id="subject"
                                     formcontrolname="subject" rows="2"
@@ -595,9 +567,8 @@
                             </div>
                         </div>
                     </div>
-                </form> <!-- End of eofficeForm -->
+                </form>
 
-                <!-- Modal for Min./Dept./Others Search -->
                 <div id="minDeptModal"
                     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
                     <div class="bg-white rounded-md shadow-xl w-full max-w-2xl max-h-[80vh] flex flex-col">
@@ -633,7 +604,7 @@
                                     <input type="radio" name="minDeptSelection"
                                         class="form-radio h-3 w-3 text-blue-600 mr-2.5" value="DG SIGS"><span>DG
                                         SIGS</span></li>
-                                <script> // Dummy items for modal scroll
+                                <script>
                                     const modalListUl = document.querySelector('#minDeptModal ul.modal-list'); 
                                     if (modalListUl) { for (let i = 0; i < 30; i++) { const li = document.createElement('li'); li.className = 'p-2 border-b border-gray-100 hover:bg-gray-50 cursor-pointer flex items-center'; li.innerHTML = `<input type="radio" name="minDeptSelection" class="form-radio h-3 w-3 text-blue-600 mr-2.5" value="Department Option ${i + 1}"><span>Department Option ${i + 1}</span>`; modalListUl.appendChild(li); } }
                                 </script>
@@ -657,29 +628,25 @@
             const removeFileButton = document.getElementById('removeFile');
             const previewPlaceholder = document.getElementById('previewPlaceholder');
             const filePreviewArea = document.getElementById('filePreviewArea');
-            const documentIdDisplay = document.getElementById('documentIdDisplay');
-            const documentIdSpan = documentIdDisplay.querySelector('span');
 
             const docSearchInput = document.getElementById('docSearchInput');
             const docSearchButton = document.getElementById('docSearchButton');
-            const searchResultsContainer = document.getElementById('searchResultsContainer'); // Added
-            const baseUrl = "http://localhost:8000";
+            const searchResultsContainer = document.getElementById('searchResultsContainer');
+            const baseUrl = "http://localhost:8000"; // For API calls like /upload, /search
 
             const eofficeForm = document.getElementById('eofficeForm');
-            const processDocumentButton = document.getElementById('processDocumentButton');
+            let currentActiveDocumentId = null;
 
-
-            // --- File Upload Logic ---
             fileUpload.addEventListener('change', function (event) {
                 const file = event.target.files[0];
                 if (file) {
                     if (file.type === "application/pdf" && file.size <= 50 * 1024 * 1024) {
                         previewPlaceholder.textContent = `Selected: ${file.name}. Uploading...`;
                         previewPlaceholder.style.display = 'block';
-                        filePreviewArea.innerHTML = ''; // Clear previous preview
+                        filePreviewArea.innerHTML = '';
                         removeFileButton.style.display = 'inline-block';
-                        documentIdDisplay.style.display = 'none';
-                        searchResultsContainer.classList.add('hidden'); // Hide search results if a file is uploaded
+                        searchResultsContainer.classList.add('hidden');
+                        displayPdfPreview(file); // Preview local blob first
 
                         const formData = new FormData();
                         formData.append('file', file);
@@ -694,10 +661,9 @@
                             .then(data => {
                                 console.log('Upload successful:', data);
                                 if (data.documentId) {
-                                    documentIdSpan.textContent = data.documentId;
-                                    documentIdDisplay.style.display = 'block';
-                                    previewPlaceholder.textContent = `Uploaded: ${file.name}`; // Keep this or let displayPdfPreview handle
-                                    displayPdfPreview(file); // Preview the uploaded file directly
+                                    currentActiveDocumentId = data.documentId;
+                                    previewPlaceholder.textContent = `Uploaded: ${file.name}`;
+                                    displayPdfPreview(currentActiveDocumentId); // Update iframe to server URL
                                 } else {
                                     throw new Error("Document ID not returned from upload.");
                                 }
@@ -722,54 +688,44 @@
                 previewPlaceholder.textContent = 'File preview will appear here.';
                 previewPlaceholder.style.display = 'block';
                 removeFileButton.style.display = 'none';
-                documentIdDisplay.style.display = 'none';
-                documentIdSpan.textContent = '';
-                filePreviewArea.innerHTML = ''; // Clear preview
-                searchResultsContainer.classList.add('hidden'); // Hide search results
+                currentActiveDocumentId = null;
+                filePreviewArea.innerHTML = '';
+                searchResultsContainer.classList.add('hidden');
                 console.log('File removed.');
             }
 
             function displayPdfPreview(fileOrId) {
-                filePreviewArea.innerHTML = ''; // Clear previous before adding new
-                previewPlaceholder.style.display = 'none'; // Hide placeholder when preview is shown
+                filePreviewArea.innerHTML = '';
+                previewPlaceholder.style.display = 'none';
 
                 const previewElement = document.createElement('iframe');
+                previewElement.id = 'pdfViewerIframe';
+                previewElement.setAttribute('data-id-attr', 'iFrame-id'); // Mimic original attribute if needed
                 previewElement.style.width = '100%';
                 previewElement.style.height = '100%';
                 previewElement.style.border = 'none';
 
                 if (typeof fileOrId === 'string') { // It's a document ID
-                    fetch(`${baseUrl}/document?id=${encodeURIComponent(fileOrId)}`)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`Could not load document preview: ${response.status}`);
-                            }
-                            return response.blob();
-                        })
-                        .then(blob => {
-                            const objectURL = URL.createObjectURL(blob);
-                            previewElement.src = objectURL;
-                            filePreviewArea.appendChild(previewElement);
-                            console.log(`Previewing document by ID: ${fileOrId}`);
-                        })
-                        .catch(error => {
-                            console.error('Error fetching document for preview:', error);
-                            previewPlaceholder.textContent = `Could not load preview for ID: ${fileOrId}. ${error.message}`;
-                            previewPlaceholder.style.display = 'block';
-                        });
-                } else if (fileOrId instanceof File) { // It's a File object
+                    const pdfPathPrefix = "/efile-api/storage/view/";
+                    const postId = "179"; // As in the original example
+                    const pageFragment = "#page=1";
+
+                    // Construct URL pointing to local server but with the desired path structure
+                    const serverUrl = `${baseUrl}${pdfPathPrefix}${encodeURIComponent(fileOrId)}?postId=${postId}${pageFragment}`;
+                    previewElement.src = serverUrl;
+                    console.log(`Previewing document by ID, iframe src: ${serverUrl}`);
+                } else if (fileOrId instanceof File) { // It's a File object (for initial local preview)
                     const objectURL = URL.createObjectURL(fileOrId);
                     previewElement.src = objectURL;
-                    filePreviewArea.appendChild(previewElement);
-                    console.log(`Previewing uploaded file: ${fileOrId.name}`);
+                    console.log(`Previewing local file: ${fileOrId.name}, iframe src (blob): ${objectURL.substring(0, 50)}...`);
                 }
+                filePreviewArea.appendChild(previewElement);
             }
 
-            // --- Document Search Logic ---
             docSearchButton.addEventListener('click', function () {
                 const query = docSearchInput.value.trim();
-                searchResultsContainer.innerHTML = ''; // Clear previous results
-                searchResultsContainer.classList.add('hidden'); // Hide it initially for new search
+                searchResultsContainer.innerHTML = '';
+                searchResultsContainer.classList.add('hidden');
 
                 if (query) {
                     docSearchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
@@ -794,31 +750,26 @@
 
                                     li.addEventListener('click', function() {
                                         const selectedDocId = this.dataset.docId;
-                                        documentIdSpan.textContent = selectedDocId;
-                                        documentIdDisplay.style.display = 'block';
+                                        currentActiveDocumentId = selectedDocId;
                                         displayPdfPreview(selectedDocId);
-                                        searchResultsContainer.innerHTML = ''; // Clear list
-                                        searchResultsContainer.classList.add('hidden'); // Hide list
-                                        // docSearchInput.value = ''; // Optional: clear search input
+                                        searchResultsContainer.innerHTML = '';
+                                        searchResultsContainer.classList.add('hidden');
                                     });
                                     ul.appendChild(li);
                                 });
                                 searchResultsContainer.appendChild(ul);
-                                searchResultsContainer.classList.remove('hidden'); // Show populated list
+                                searchResultsContainer.classList.remove('hidden');
 
-                                // Reset preview until an item is clicked
                                 filePreviewArea.innerHTML = '';
                                 previewPlaceholder.textContent = 'Select a document from the search results above.';
                                 previewPlaceholder.style.display = 'block';
-                                documentIdDisplay.style.display = 'none';
-                                documentIdSpan.textContent = '';
+                                currentActiveDocumentId = null;
 
                             } else {
                                 previewPlaceholder.textContent = 'No documents found for: ' + query;
                                 previewPlaceholder.style.display = 'block';
-                                documentIdDisplay.style.display = 'none';
-                                documentIdSpan.textContent = '';
-                                filePreviewArea.innerHTML = ''; // Clear preview area
+                                currentActiveDocumentId = null;
+                                filePreviewArea.innerHTML = '';
                             }
                         })
                         .catch(error => {
@@ -835,13 +786,11 @@
                 }
             });
 
-
-            // --- Form Submission ---
             eofficeForm.addEventListener('submit', function (event) {
                 event.preventDefault();
                 const formData = new FormData(eofficeForm);
                 const data = Object.fromEntries(formData.entries());
-                data.documentId = documentIdSpan.textContent;
+                data.documentId = currentActiveDocumentId;
 
                 eofficeForm.querySelectorAll('.custom-dropdown-container input[type="text"][formcontrolname]').forEach(ddInput => {
                     const formControlName = ddInput.getAttribute('formcontrolname');
@@ -869,163 +818,6 @@
                     }
                 });
             });
-
-            // --- Process Document Button Logic ---
-            if (processDocumentButton) {
-                processDocumentButton.addEventListener('click', async function () {
-                    const currentDocumentId = documentIdSpan.textContent;
-                    if (!currentDocumentId) {
-                        alert('Please upload or search for a document first.');
-                        return;
-                    }
-
-                    const formSchema = {}; // Will be { "fieldName": { type: "elementType" } }
-                    Array.from(eofficeForm.elements).forEach(element => {
-                        const formControlName = element.getAttribute('formcontrolname');
-                        if (formControlName) {
-                            let elementType;
-                            const tagName = element.tagName.toLowerCase();
-                            if (tagName === 'input') {
-                                elementType = element.type.toLowerCase();
-                            } else {
-                                elementType = tagName; // e.g., select, textarea
-                            }
-                            formSchema[formControlName] = { type: elementType };
-                            // Future: Add more details if needed by AI
-                            // e.g., formSchema[formControlName].required = element.hasAttribute('required');
-                            // if (elementType === 'select' && element.options.length > 0) {
-                            //     formSchema[formControlName].options = Array.from(element.options).map(opt => opt.value || opt.text);
-                            // }
-                        }
-                    });
-                    
-                    const originalButtonText = this.innerHTML;
-                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
-                    this.disabled = true;
-
-                    try {
-                        const response = await fetch(`${baseUrl}/process`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json', },
-                            body: JSON.stringify({ documentId: currentDocumentId, form_schema: formSchema }),
-                        });
-
-                        if (!response.ok) {
-                            const errorData = await response.json().catch(() => ({ detail: "Unknown error during processing." }));
-                            throw new Error(`Processing failed: ${response.status} ${errorData.detail || response.statusText}`);
-                        }
-
-                        const result = await response.json();
-                        console.log('Processing result:', result);
-                        console.log('Form schema sent:', formSchema);
-
-                        if (result.extracted_data_per_page) {
-                            let combinedData = {};
-                            if (Array.isArray(result.extracted_data_per_page)) {
-                                result.extracted_data_per_page.forEach(pageData => {
-                                    if (typeof pageData === 'object' && pageData !== null) {
-                                        Object.assign(combinedData, pageData);
-                                    }
-                                });
-                            } else if (typeof result.extracted_data_per_page === 'object' && result.extracted_data_per_page !== null) {
-                                combinedData = result.extracted_data_per_page;
-                            }
-
-                            let fieldsFilledCount = 0;
-                            for (const formControlNameInResponse in combinedData) {
-                                if (Object.hasOwnProperty.call(combinedData, formControlNameInResponse)) {
-                                    let element = eofficeForm.querySelector(`[formcontrolname="${formControlNameInResponse}"]`);
-                                    
-                                    const valueToFill = combinedData[formControlNameInResponse];
-
-                                    if (element) {
-                                        const schemaDetails = formSchema[formControlNameInResponse];
-                                        let elementTypeFromSchema = null;
-
-                                        if (schemaDetails && typeof schemaDetails.type === 'string') {
-                                            elementTypeFromSchema = schemaDetails.type;
-                                        }
-
-                                        if (!elementTypeFromSchema) {
-                                            console.warn(`No schema type found or invalid schema for '${formControlNameInResponse}'. Skipping population for this field.`);
-                                            continue;
-                                        }
-
-                                        const customDropdownContainer = element.closest('.custom-dropdown-container');
-                                        if (customDropdownContainer && (elementTypeFromSchema === 'text' || elementTypeFromSchema === 'tel' || elementTypeFromSchema === 'email')) {
-                                            const displayInput = customDropdownContainer.querySelector('.dropdown-trigger input[type="text"]');
-                                            const panel = customDropdownContainer.querySelector('.dropdown-panel');
-                                            const list = panel ? panel.querySelector('.dropdown-list') : null;
-                                            const clearBtn = customDropdownContainer.querySelector('.dropdown-clear');
-
-                                            if (displayInput) {
-                                                displayInput.value = valueToFill;
-                                                if (clearBtn) clearBtn.classList.toggle('hidden', !valueToFill);
-
-                                                if (list) { 
-                                                    list.querySelectorAll('li').forEach(li => {
-                                                        li.classList.remove('dropdown-item-selected');
-                                                        if (li.textContent.trim() === String(valueToFill).trim()) {
-                                                            li.classList.add('dropdown-item-selected');
-                                                        }
-                                                    });
-                                                }
-                                                fieldsFilledCount++;
-                                                console.log(`Populated custom dropdown/autocomplete '${formControlNameInResponse}' with value: '${valueToFill}'`);
-                                            }
-                                        } else if (elementTypeFromSchema === 'radio') {
-                                            const radioToSelect = eofficeForm.querySelector(`input[name="${element.name}"][value="${valueToFill}"]`);
-                                            if (radioToSelect) {
-                                                radioToSelect.checked = true;
-                                                fieldsFilledCount++;
-                                                console.log(`Populated radio group '${element.name}' with value: '${valueToFill}'`);
-                                            } else {
-                                                console.warn(`Radio button with name '${element.name}' and value '${valueToFill}' not found for AI population.`);
-                                            }
-                                        } else if (elementTypeFromSchema === 'checkbox') {
-                                            element.checked = Boolean(valueToFill);
-                                            fieldsFilledCount++;
-                                            console.log(`Populated checkbox '${formControlNameInResponse}' -> CHECKED: ${element.checked}`);
-                                        } else if (elementTypeFromSchema === 'select') {
-                                            element.value = valueToFill;
-                                            const event = new Event('change', { bubbles: true });
-                                            element.dispatchEvent(event);
-                                            fieldsFilledCount++;
-                                            console.log(`Populated select '${formControlNameInResponse}' with value: '${valueToFill}'`);
-                                        } else { // Standard inputs (text, date, textarea, etc.)
-                                            element.value = valueToFill;
-                                            const inputEvent = new Event('input', { bubbles: true }); // For char counters etc.
-                                            element.dispatchEvent(inputEvent);
-                                            const changeEvent = new Event('change', { bubbles: true }); // For some frameworks/listeners
-                                            element.dispatchEvent(changeEvent);
-                                            fieldsFilledCount++;
-                                            console.log(`Populated field '${formControlNameInResponse}' (type: ${elementTypeFromSchema}) with value: '${valueToFill}'`);
-                                        }
-                                    } else {
-                                        console.warn(`Element for formControlName '${formControlNameInResponse}' (value: '${valueToFill}') not found in the form.`);
-                                    }
-                                }
-                            }
-                            if (fieldsFilledCount > 0) {
-                                alert(`Document processed. ${fieldsFilledCount} fields were populated based on AI output.`);
-                            } else {
-                                alert('Document processed, but no matching fields were populated. Check AI output and form field definitions.');
-                            }
-                        } else {
-                            alert('Processing completed, but no data was extracted or returned in the expected format.');
-                        }
-
-                    } catch (error) {
-                        console.error('Error processing document:', error);
-                        alert(`Error: ${error.message}`);
-                    } finally {
-                        processDocumentButton.innerHTML = originalButtonText;
-                        processDocumentButton.disabled = false;
-                    }
-                });
-            } else {
-                console.warn("Process Document Button not found in the DOM.");
-            }
 
             function setDefaultDates() {
                 const today = new Date().toISOString().split('T')[0];
@@ -1101,11 +893,9 @@
                 const filter = searchInput.value.toLowerCase();
                 const items = listElement.querySelectorAll('li');
                 items.forEach(item => {
-                    // If item contains a search input (like in category dropdown), don't hide it
                     if (item.querySelector('.dropdown-search')) {
                          item.style.display = ''; return;
                     }
-                    // If item contains a radio button (like in modal), filter based on span text
                     const textElement = item.querySelector('span') || item;
                     const text = textElement.textContent.toLowerCase();
                     item.style.display = text.includes(filter) ? '' : 'none';
@@ -1113,14 +903,12 @@
             }
 
             document.addEventListener('click', (event) => {
-                // Close custom dropdowns
                 document.querySelectorAll('.custom-dropdown-container').forEach(container => {
                     if (!container.contains(event.target)) {
                         const panel = container.querySelector('.dropdown-panel, .autocomplete-panel');
                         if (panel) panel.classList.add('hidden');
                     }
                 });
-                // Close search results panel
                 if (searchResultsContainer && !searchResultsContainer.classList.contains('hidden')) {
                     if (!docSearchInput.contains(event.target) && !searchResultsContainer.contains(event.target) && !docSearchButton.contains(event.target)) {
                         searchResultsContainer.classList.add('hidden');
@@ -1162,8 +950,8 @@
                 openMinDeptModalButton.addEventListener('click', () => {
                     minDeptModal.classList.remove('hidden');
                     if (minDeptModalSearchInput) {
-                        minDeptModalSearchInput.value = ''; // Clear previous search
-                        filterDropdownList(minDeptModalSearchInput, modalListElement); // Show all items
+                        minDeptModalSearchInput.value = '';
+                        filterDropdownList(minDeptModalSearchInput, modalListElement); 
                         minDeptModalSearchInput.focus();
                     }
                 });
@@ -1192,7 +980,7 @@
                 });
             }
 
-        }); // End of DOMContentLoaded
+        });
     </script>
 </body>
 
