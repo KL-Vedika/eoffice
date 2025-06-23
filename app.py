@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 
 load_dotenv(".env")
-from fastapi import Depends, FastAPI, File, UploadFile, HTTPException, Body
+from fastapi import Depends, FastAPI, File, Path, UploadFile, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse
 import os
@@ -136,10 +136,13 @@ async def upload_file(file: UploadFile = File(...), db: Session = Depends(get_db
     }
 
 
-@app.get("/document")
+@app.get("/efile-api/storage/view/{id}")
 async def get_document(
-    id: str, db: Session = Depends(get_db)
+     db: Session = Depends(get_db),
+     id: str = Path(..., description="The ID of the document to retrieve")
 ):  
+    print(f"Received request for document with ID: {id}")
+
     doc_metadata = (
         db.query(PermanentDocument).filter(PermanentDocument.doc_id == id).first()
     )
@@ -280,4 +283,4 @@ async def process_pdf_endpoint(
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("app:app", host="0.0.0.0", port=8181, reload=True)
