@@ -830,6 +830,8 @@
 
             document.querySelectorAll('.custom-dropdown-container').forEach(container => {
                 const trigger = container.querySelector('.dropdown-trigger');
+                if (!trigger) return; // Skip containers without dropdown triggers
+                
                 const displayInput = trigger.querySelector('input[type="text"]');
                 const clearButton = trigger.querySelector('.dropdown-clear');
                 const panel = container.querySelector('.dropdown-panel, .autocomplete-panel');

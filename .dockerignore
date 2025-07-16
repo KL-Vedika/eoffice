@@ -1,4 +1,14 @@
-chrome-extension/*
-.git/*
+chrome-extension/
+.git/
 .env
 .gitignore
+
+new-chrome-extension/
+__pycache__/
+form/
+uploads/
+app_no_db_copy
+app_older.py 
+qwenmodel_sequential.py
+qwenmodel.py 
+test_mistral_model.py

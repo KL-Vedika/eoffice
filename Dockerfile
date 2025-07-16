@@ -1,29 +1,27 @@
-FROM vllm/vllm-openai:latest
+# Use the Ollama base image
+FROM python:3.11-slim
 
-RUN apt update && apt upgrade -y
+# Update system and install extra dependencies
+RUN apt update && apt upgrade -y && \
+    apt install -y --no-install-recommends \
+        build-essential \
+        libpq-dev \
+    && apt clean && rm -rf /var/lib/apt/lists/*
 
-# Set environment variables
+# Environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    libpq-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Python dependencies
+# Copy Python requirements and install
 COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Copy app codes.txt .
+# Copy all app code
 COPY . .
 
-# Set the entrypoint to the entrypoint.sh script
-RUN chmod +x entrypoint.sh
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT ["python3", "app.py"]
+

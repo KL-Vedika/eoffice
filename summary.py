@@ -1,15 +1,20 @@
 from io import BytesIO
 import json
+import os
 from openai import OpenAI
 import base64
 import requests
 from pdf2image import convert_from_path
+from dotenv import load_dotenv
+from config import SUMMARY_SYSTEM_PROMPT
+
+load_dotenv()
 
 # This part remains the same
 client = OpenAI(
-    base_url="http://100.120.1.23:11434/v1",
-    api_key="ollama",  # required, but unused
-)
+        base_url=os.getenv("OPENAI_BASE_URL"),
+        api_key=os.getenv("OPENAI_API_KEY"),  # required, but unused
+    )
 
 
 def pdf_to_base64_images(pdf_path, dpi=300, image_format="png"):
@@ -28,58 +33,70 @@ def pdf_to_base64_images(pdf_path, dpi=300, image_format="png"):
         print(f"Error converting PDF to images: {e}")
         return None
 
-# --- MODIFICATION START ---
-
 def inference(image_base_64):
     """
-    This function is now a generator. It streams the response from the model
-    and yields each content chunk as it arrives.
+    Process each page individually and combine all summaries into a final result.
+    Returns the complete combined summary instead of streaming.
     """
-    SYSTEM_PROMPT = """
-    you are expert document reader you will be given with the document images and you need extract the every information present in the document. 
-    Summarize the document.
-    Describe all the images in the document in  detail.
-    """
-    image_data = []
-    for image in image_base_64:
-        image_data.append({"type": "image_url", "image_url": {"url": image}})
-        
-    # The client call now returns a stream (a generator object)
-    response_stream = client.chat.completions.create(
-        model="gemma3:4b",
-        temperature=0.1,
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {
-                "role": "user",
-                "content": image_data,
-            },
-        ],
-        stream=True,  # <-- Key change: Enable streaming
-    )
-
-    # Loop through the stream and yield the content of each chunk
-    for chunk in response_stream:
-        # For streaming responses, the content is in chunk.choices[0].delta.content
-        content = chunk.choices[0].delta.content
-        if content:  # Ensure the content is not None
-            yield content
-
-# --- MODIFICATION END ---
-
-
-# --- MAIN EXECUTION MODIFICATION ---
-
-# Convert the PDF to images
-data = pdf_to_base64_images("uploads\Advisory_on_utilisation_of_enahnced_features_of_eOffice.pdf")
-
-if data:
-    print("--- Streaming Model Response ---")
-    # The 'inference' function now returns a generator.
-    # We loop through it to print each piece of the response as it arrives.
-    for chunk in inference(data):
-        print(chunk, end='', flush=True)
     
-    # Print a final newline for clean terminal output
-    print()
-    print("--- End of Stream ---")
+    if not image_base_64:
+        return "No images provided for summarization."
+    
+    page_summaries = []
+    
+    # Process each page individually
+    for i, image in enumerate(image_base_64):
+        page_num = i + 1
+        print(f"Processing page {page_num}/{len(image_base_64)} for summarization...")
+        
+        try:
+            # Process single page
+            response = client.chat.completions.create(
+                model=os.getenv("OPENAI_MODEL"),
+                temperature=0.1,
+                messages=[
+                    {"role": "system", "content": SUMMARY_SYSTEM_PROMPT},
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "image_url", "image_url": {"url": image}},
+                            {"type": "text", "text": f"Summarize the content of page {page_num}. Focus on the main points, key information, and important details."}
+                        ],
+                    },
+                ],
+                # No streaming - get complete response
+            )
+            
+            # Get the complete content from the response
+            page_content = response.choices[0].message.content
+            print(f"Page {page_num} content: {page_content[:100]}...")
+            
+            if page_content and page_content.strip():
+                page_summaries.append(f"Page {page_num}: {page_content.strip()}")
+            else:
+                page_summaries.append(f"Page {page_num}: No meaningful content extracted.")
+                
+        except Exception as e:
+            print(f"Error processing page {page_num}: {e}")
+            page_summaries.append(f"Page {page_num}: Error processing page - {str(e)}")
+            continue
+    
+    # Combine all page summaries
+    if page_summaries:
+        if len(page_summaries) == 1:
+            # Single page document
+            combined_summary = page_summaries[0].replace("Page 1: ", "")
+        else:
+            # Multi-page document - create comprehensive summary
+            combined_summary = f"""
+
+{chr(10).join(page_summaries)}
+
+"""
+    else:
+        combined_summary = "No content could be extracted from the document."
+    
+    print(f"Combined summary length: {len(combined_summary)} characters")
+    return combined_summary
+
+

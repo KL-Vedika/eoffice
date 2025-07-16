@@ -1,20 +1,37 @@
 version: '3.8'
 
 services:
-  vllm:
-    image: eoffice:latest
-    container_name: eoffice
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
     deploy:
       resources:
         reservations:
           devices:
-            - capabilities: [gpu]  # Replace with your actual token or use an env_file
-    volumes:
-      - ~/.cache/huggingface:/root/.cache/huggingface
+            - capabilities: [gpu]  
+
+  app:
+    image: eoffice:latest
+    container_name: eoffice
+    depends_on:
+      - ollama
     environment:
-      - "DATABASE_URL=postgresql://postgres:80082Ram@100.120.1.23:5432/postgres"
-      - "OPENAI_BASE_URL=http://localhost:8080/v1"
+      - "OPENAI_BASE_URL=http://ollama:11434/v1"
       - "OPENAI_API_KEY=ollama"
-      - "OPENAI_MODEL=qwen2.5vl:7b"
+      - "OPENAI_MODEL=gemma3:27b" 
+    volumes:
+      - .:/app
     ports:
       - "8000:8000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]  
+
+volumes:
+  ollama_data:

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PDF Form Filler</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    input[type="text"] {
+      width: calc(100% - 22px);
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    button {
+      padding: 10px 15px;
+      font-size: 14px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      width: 100%;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    button.secondary {
+        background-color: #6c757d;
+        margin-top: 5px;
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+    button.secondary:hover {
+        background-color: #545b62;
+    }
+    #status, #endpointStatus {
+      margin-top: 10px;
+      font-size: 12px;
+      min-height: 1.2em;
+    }
+    h3 {
+        text-align: center;
+        margin-bottom: 5px;
+    }
+    .info-text {
+        font-size:11px;
+        color: #555;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    hr {
+        margin-top: 15px;
+        margin-bottom: 10px;
+        border: 0;
+        border-top: 1px solid #eee;
+    }
+    #summarySection {
+        background: #f8f9fa;
+        border-radius: 6px;
+        padding: 10px;
+        margin-top: 15px;
+    }
+    #summaryContent {
+        background: white;
+        border: 1px solid #e9ecef;
+        font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #333;
+        font-weight: 400;
+    }
+    .info-badge {
+        display: inline-block;
+        background: #e3f2fd;
+        color: #1976d2;
+        padding: 2px 6px;
+        border-radius: 12px;
+        font-size: 10px;
+        margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h3>PDF Form Filler</h3>
+
+  <label for="apiEndpointInput">API Endpoint: <span style="color: red;">*Required</span></label>
+  <input type="text" id="apiEndpointInput" placeholder="e.g., http://localhost:8181/process-pdf">
+  <button id="saveEndpointButton" class="secondary">Save Endpoint</button>
+  <div id="endpointStatus"></div>
+
+  <hr>
+
+  <button id="fillFormButton">Process PDF & Fill Form</button>
+  <button id="summarizeButton">Summarize PDF</button>
+  <div id="status"></div>
+
+  <!-- Summary Display Section -->
+  <div id="summarySection" style="display: none;">
+    <hr>
+    <h4 style="margin-bottom: 10px; font-size: 14px;">PDF Summary</h4>
+    <div id="summaryContent" style="max-height: 200px; overflow-y: auto; background: #f8f9fa; padding: 10px; border-radius: 4px; white-space: pre-wrap;"></div>
+    <button id="closeSummaryButton" class="secondary" style="margin-top: 8px; font-size: 11px; padding: 5px 10px;">Close Summary</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html> 
