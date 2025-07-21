@@ -7,7 +7,7 @@ services:
     ports:
       - "11434:11434"
     volumes:
-      - ollama_data:/root/.ollama
+      - ./.ollama:/root/.ollama
     deploy:
       resources:
         reservations:
@@ -27,11 +27,5 @@ services:
       - .:/app
     ports:
       - "8000:8000"
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [gpu]  
-
 volumes:
   ollama_data:

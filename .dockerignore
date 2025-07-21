@@ -12,3 +12,5 @@ app_older.py
 qwenmodel_sequential.py
 qwenmodel.py 
 test_mistral_model.py
+eoffice.tar
+venv/*

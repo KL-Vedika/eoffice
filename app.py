@@ -333,9 +333,134 @@ async def process_pdf_direct(request: ProcessPdfRequest):
         print(f"Error processing PDF: {e}")
         raise HTTPException(status_code=500, detail=f"Error processing PDF: {str(e)}")
 
+@app.get("/efile-api/storage/view/{document_id}")
+async def view_pdf(document_id: str):
+    """Serve PDF file for preview in iframe"""
+    try:
+        # Check if document exists in our storage
+        if document_id not in file_storage:
+            raise HTTPException(status_code=404, detail="Document not found")
+        
+        file_info = file_storage[document_id]
+        file_path = file_info["file_path"]
+        
+        # Check if file exists on disk
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="File not found on disk")
+        
+        # Return the PDF file
+        return FileResponse(
+            path=file_path,
+            media_type="application/pdf",
+            headers={
+                "Content-Disposition": f"inline; filename={file_info['file_name']}",
+                "Cache-Control": "no-cache"
+            }
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error serving PDF {document_id}: {e}")
+        raise HTTPException(status_code=500, detail=f"Error serving PDF: {str(e)}")
+
+@app.get("/search")
+async def search_documents(query: str):
+    """Search documents by name or content"""
+    try:
+        if not query.strip():
+            return {"results": [], "message": "Empty query"}
+        
+        results = []
+        query_lower = query.lower()
+        
+        # Search through stored documents
+        for doc_id, file_info in file_storage.items():
+            # Search by filename or original filename
+            if (query_lower in file_info["file_name"].lower() or 
+                (file_info.get("original_file_name") and 
+                 query_lower in file_info["original_file_name"].lower()) or
+                query_lower in doc_id.lower()):
+                
+                results.append({
+                    "id": doc_id,
+                    "name": file_info["file_name"],
+                    "original_name": file_info.get("original_file_name"),
+                    "size": file_info["size"],
+                    "saved_on": file_info["saved_on"].isoformat() if isinstance(file_info["saved_on"], datetime) else str(file_info["saved_on"])
+                })
+        
+        return {
+            "results": results,
+            "total": len(results),
+            "query": query
+        }
+        
+    except Exception as e:
+        logger.error(f"Error searching documents: {e}")
+        raise HTTPException(status_code=500, detail=f"Search error: {str(e)}")
+
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "version": "1.0", "storage": len(file_storage), "temp_storage": len(temp_file_storage)}
+
+@app.post("/upload")
+async def upload_file(file: UploadFile = File(...)):
+    try:
+        original_filename = file.filename
+        filename = os.path.basename(original_filename) if original_filename else "unknown.pdf"
+        if not filename:
+            raise HTTPException(status_code=400, detail="Invalid filename provided by client.")
+        
+        # Ensure uploads directory exists
+        uploads_dir = "uploads"
+        os.makedirs(uploads_dir, exist_ok=True)
+        
+        # Create unique filename to avoid conflicts
+        base_name, ext = os.path.splitext(filename)
+        unique_filename = f"{base_name}_{uuid.uuid4().hex[:8]}{ext}"
+        file_path = os.path.join(uploads_dir, unique_filename)
+        
+        try:
+            content = await file.read()
+            file_size = len(content)
+            
+            # Write file to disk
+            with open(file_path, "wb") as f:
+                f.write(content)
+                
+        except IOError as e:
+            logger.error(f"IOError writing file {file_path}: {e}")
+            raise HTTPException(status_code=500, detail="Could not write file to disk.")
+        except Exception as e:
+            logger.error(f"Error handling file {filename}: {e}")
+            raise HTTPException(status_code=500, detail=f"Error handling file: {str(e)}")
+        
+        # Generate document ID
+        doc_id = uuid.uuid4().hex[:24]
+        file_storage[doc_id] = {
+            "doc_id": doc_id,
+            "file_name": unique_filename,
+            "original_file_name": original_filename,
+            "mime_type": file.content_type,
+            "size": file_size,
+            "saved_on": datetime.now(),
+            "file_path": file_path
+        }
+        
+        logger.info(f"Uploaded: {original_filename} -> {unique_filename} (ID: {doc_id}, Size: {file_size} bytes)")
+        
+        return {
+            "message": "File uploaded successfully",
+            "documentId": doc_id,
+            "filePath": file_path,
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Unexpected error in upload: {e}")
+        raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
 
 if __name__ == "__main__":
     import uvicorn
