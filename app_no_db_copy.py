@@ -24,6 +24,8 @@ from summary import (
             )
 import traceback
 from config import logger
+import uvicorn
+
 
 
 # Load environment variables
@@ -187,7 +189,6 @@ async def process_pdf_direct(request: ProcessPdfRequest):
 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
-    """Upload PDF file (no database, stored in memory + disk)"""
     original_filename = file.filename
     filename = os.path.basename(original_filename) if original_filename else "unknown.pdf"
 
@@ -210,7 +211,6 @@ async def upload_file(file: UploadFile = File(...)):
     # Generate document ID
     doc_id = uuid.uuid4().hex[:24]
 
-    # Store metadata in memory (replaces database)
     file_storage[doc_id] = {
         "doc_id": doc_id,
         "file_name": filename,
@@ -435,7 +435,6 @@ async def health_check():
     return {"status": "healthy", "version": "1.0", "storage": len(file_storage), "temp_storage": len(temp_file_storage)}
 
 if __name__ == "__main__":
-    import uvicorn
     print("Starting PDF Form Filler Backend")
     print("Temp directory:", tempfile.gettempdir())
-    uvicorn.run("app:app", host="0.0.0.0", port=8181, reload=True) 
+    uvicorn.run("app_no_db_copy:app", host="0.0.0.0", port=8181, reload=True,ssl_keyfile="private.key",ssl_certfile="certificate.crt") 

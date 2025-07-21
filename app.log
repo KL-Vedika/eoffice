@@ -1,0 +1,82 @@
+2025-07-18 13:05:16,331 - config - INFO - Successfully converted 1 pages from PDF
+2025-07-18 13:05:16,332 - config - INFO - [SEQUENTIAL] Processing 1 pages with context carryover
+2025-07-18 13:05:16,333 - config - INFO - Enhanced sequential processing of 1 images
+2025-07-18 13:05:16,333 - config - INFO - Processing page 1/1
+2025-07-18 13:05:21,479 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-18 13:05:28,814 - config - INFO - [SUCCESS] Page 1 completed with confidence: 1.0
+2025-07-18 13:05:28,815 - config - INFO - Enhanced sequential processing completed. Final confidence: 1.0
+2025-07-18 13:05:28,816 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-21 11:55:34,431 - config - INFO - Successfully converted 2 pages from PDF
+2025-07-21 11:55:34,437 - config - INFO - [SEQUENTIAL] Processing 2 pages with context carryover
+2025-07-21 11:55:34,438 - config - INFO - Enhanced sequential processing of 2 images
+2025-07-21 11:55:34,438 - config - INFO - Processing page 1/2
+2025-07-21 11:55:46,815 - openai._base_client - INFO - Retrying request to /chat/completions in 0.386633 seconds
+2025-07-21 11:55:47,224 - openai._base_client - INFO - Retrying request to /chat/completions in 0.998748 seconds
+2025-07-21 11:55:48,259 - config - ERROR - Processing error on page 1: Connection error.
+2025-07-21 11:55:48,260 - config - ERROR - [ERROR] Page 1 failed: Connection error.
+2025-07-21 11:55:48,262 - config - INFO - Processing page 2/2
+2025-07-21 11:55:48,324 - openai._base_client - INFO - Retrying request to /chat/completions in 0.419452 seconds
+2025-07-21 11:55:48,786 - openai._base_client - INFO - Retrying request to /chat/completions in 0.870040 seconds
+2025-07-21 11:55:49,694 - config - ERROR - Processing error on page 2: Connection error.
+2025-07-21 11:55:49,695 - config - ERROR - [ERROR] Page 2 failed: Connection error.
+2025-07-21 11:55:49,696 - config - INFO - Enhanced sequential processing completed. Final confidence: N/A
+2025-07-21 11:55:49,698 - config - INFO - [SUCCESS] Sequential extraction complete: No data
+2025-07-21 11:56:58,034 - config - INFO - Successfully converted 1 pages from PDF
+2025-07-21 11:56:58,036 - config - INFO - [SEQUENTIAL] Processing 1 pages with context carryover
+2025-07-21 11:56:58,036 - config - INFO - Enhanced sequential processing of 1 images
+2025-07-21 11:56:58,037 - config - INFO - Processing page 1/1
+2025-07-21 11:57:10,088 - openai._base_client - INFO - Retrying request to /chat/completions in 0.464915 seconds
+2025-07-21 11:57:32,250 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-21 11:57:40,641 - config - INFO - [SUCCESS] Page 1 completed with confidence: 1.0
+2025-07-21 11:57:40,642 - config - INFO - Enhanced sequential processing completed. Final confidence: 1.0
+2025-07-21 11:57:40,645 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-21 11:59:23,885 - config - INFO - Successfully converted 2 pages from PDF
+2025-07-21 11:59:23,889 - config - INFO - [SEQUENTIAL] Processing 2 pages with context carryover
+2025-07-21 11:59:23,889 - config - INFO - Enhanced sequential processing of 2 images
+2025-07-21 11:59:23,890 - config - INFO - Processing page 1/2
+2025-07-21 11:59:52,888 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-21 11:59:58,040 - config - INFO - [SUCCESS] Page 1 completed with confidence: 1.0
+2025-07-21 11:59:58,040 - config - INFO - Processing page 2/2
+2025-07-21 12:00:40,030 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-21 12:01:25,719 - config - INFO - Preserving sender data from previous pages (conf: 1.0 vs 0.7)
+2025-07-21 12:01:25,720 - config - INFO - [SUCCESS] Page 2 completed with confidence: 0.7
+2025-07-21 12:01:25,721 - config - INFO - Enhanced sequential processing completed. Final confidence: 1.0
+2025-07-21 12:01:25,723 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-21 12:03:05,279 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-21 12:03:16,764 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-21 12:37:55,248 - config - INFO - Successfully converted 2 pages from PDF
+2025-07-21 12:37:55,249 - config - INFO - [SEQUENTIAL] Processing 2 pages with context carryover
+2025-07-21 12:37:55,250 - config - INFO - Enhanced sequential processing of 2 images
+2025-07-21 12:37:55,250 - config - INFO - Processing page 1/2
+2025-07-21 12:37:59,205 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-21 12:38:04,771 - config - INFO - [SUCCESS] Page 1 completed with confidence: 1.0
+2025-07-21 12:38:04,772 - config - INFO - Processing page 2/2
+2025-07-21 12:38:08,377 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-21 12:38:17,625 - config - INFO - Preserving sender data from previous pages (conf: 1.0 vs 0.7)
+2025-07-21 12:38:17,626 - config - INFO - [SUCCESS] Page 2 completed with confidence: 0.7
+2025-07-21 12:38:17,627 - config - INFO - Enhanced sequential processing completed. Final confidence: 1.0
+2025-07-21 12:38:17,629 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-21 15:56:46,986 - config - INFO - Successfully converted 2 pages from PDF
+2025-07-21 15:56:46,990 - config - INFO - [SEQUENTIAL] Processing 2 pages with context carryover
+2025-07-21 15:56:46,990 - config - INFO - Enhanced sequential processing of 2 images
+2025-07-21 15:56:46,991 - config - INFO - Processing page 1/2
+2025-07-21 15:56:50,851 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-21 15:57:00,228 - config - INFO - [SUCCESS] Page 1 completed with confidence: 1.0
+2025-07-21 15:57:00,229 - config - INFO - Processing page 2/2
+2025-07-21 15:57:03,887 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-21 15:57:09,404 - config - INFO - Preserving sender data from previous pages (conf: 1.0 vs 0.7)
+2025-07-21 15:57:09,404 - config - INFO - [SUCCESS] Page 2 completed with confidence: 0.7
+2025-07-21 15:57:09,404 - config - INFO - Enhanced sequential processing completed. Final confidence: 1.0
+2025-07-21 15:57:09,405 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-21 17:17:55,531 - config - INFO - Successfully converted 2 pages from PDF
+2025-07-21 17:17:55,533 - config - INFO - [SEQUENTIAL] Processing 2 pages with context carryover
+2025-07-21 17:17:55,533 - config - INFO - Enhanced sequential processing of 2 images
+2025-07-21 17:17:55,534 - config - INFO - Processing page 1/2
+2025-07-21 17:18:00,456 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-21 17:18:06,593 - config - INFO - [SUCCESS] Page 1 completed with confidence: 1.0
+2025-07-21 17:18:06,594 - config - INFO - Processing page 2/2
+2025-07-21 17:18:11,679 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-21 17:18:18,312 - config - INFO - Preserving sender data from previous pages (conf: 1.0 vs 0.7)
+2025-07-21 17:18:18,313 - config - INFO - [SUCCESS] Page 2 completed with confidence: 0.7
+2025-07-21 17:18:18,314 - config - INFO - Enhanced sequential processing completed. Final confidence: 1.0
+2025-07-21 17:18:18,317 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']

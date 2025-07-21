@@ -1,28 +1,199 @@
 console.log('PDF Form Filler extension loaded');
 
 let pdfDetected = false;
-let lastIframeSrc = '';
+let processedIframes = new Set(); // Track all processed iframe sources
+let cachedUploadedFile = null; // Cache the uploaded file when detected
 
-// Monitor for PDF uploads and iframe changes
-function monitorPdfChanges() {
-  const iframe = document.querySelector('iframe[data-id-attr="iFrame-id"], iframe[src*=".pdf"], iframe[src*="storage/view"]');
-  
-  if (iframe && iframe.src && iframe.src !== lastIframeSrc) {
-    lastIframeSrc = iframe.src;
-    pdfDetected = true;
+// Extract actual PDF URL from PDF.js viewer URLs
+function extractActualPdfUrl(viewerUrl) {
+  // Basic validation first
+  if (!viewerUrl || typeof viewerUrl !== 'string') {
+    console.warn('Invalid URL provided to extractActualPdfUrl:', viewerUrl);
+    return viewerUrl || '';
+  }
+
+  try {
+    const url = new URL(viewerUrl);
     
-    console.log('PDF detected in iframe:', iframe.src);
+    // Handle PDF.js viewer URLs
+    if (url.pathname.includes('viewer.html') || url.pathname.includes('pdf.js')) {
+      const fileParam = url.searchParams.get('file');
+      if (fileParam) {
+        // If it's a relative path, resolve it against the viewer's base
+        if (fileParam.startsWith('./') || fileParam.startsWith('../')) {
+          const baseUrl = new URL(url.origin + url.pathname.substring(0, url.pathname.lastIndexOf('/')));
+          return new URL(fileParam, baseUrl).href;
+        } else if (fileParam.startsWith('/')) {
+          return url.origin + fileParam;
+        } else if (fileParam.startsWith('http')) {
+          return fileParam;
+        }
+      }
+    }
     
-    // Notify extension that PDF is available
-    chrome.runtime.sendMessage({
-      type: 'PDF_DETECTED',
-      src: iframe.src,
-      timestamp: Date.now()
-    }).catch(() => {
-      // Extension may not be listening, ignore error
-    });
+    return viewerUrl; // Return original if not a viewer URL
+  } catch (error) {
+    console.warn('Failed to parse PDF viewer URL:', error, 'URL was:', viewerUrl);
+    // Return original URL even if parsing fails - it might still be valid
+    return viewerUrl;
   }
 }
+
+// Validate that URL points to actual PDF content
+async function validatePdfUrl(url) {
+  if (!url || typeof url !== 'string') {
+    console.warn('Invalid URL provided for validation:', url);
+    return false;
+  }
+
+  try {
+    // Try HEAD first (faster)
+    const response = await fetch(url, {
+      method: 'HEAD',
+      mode: 'cors'
+    });
+    
+    // If HEAD succeeds, check content-type
+    if (response.ok) {
+      const contentType = response.headers.get('content-type') || '';
+      const isValidContentType = contentType.toLowerCase().includes('application/pdf');
+      
+      if (!isValidContentType) {
+        console.warn('PDF validation failed: Expected application/pdf, got', contentType);
+      }
+      
+      return isValidContentType;
+    }
+    
+    // If HEAD fails with 405 Method Not Allowed, try GET instead
+    if (response.status === 405) {
+      console.log('HEAD not supported (405), trying GET request for PDF validation');
+      
+      const getResponse = await fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Range': 'bytes=0-1023' // Only first 1KB
+        }
+      });
+      
+      if (getResponse.ok) {
+        const contentType = getResponse.headers.get('content-type') || '';
+        const isValidContentType = contentType.toLowerCase().includes('application/pdf');
+        
+        if (isValidContentType) {
+          console.log('✅ PDF validation successful with GET request');
+        } else {
+          console.warn('PDF validation failed: Expected application/pdf, got', contentType);
+        }
+        
+        return isValidContentType;
+              } else {
+          console.warn('PDF validation failed: HTTP', getResponse.status, getResponse.statusText);
+          return false;
+        }
+    }
+    
+    // Other HTTP errors
+    console.warn('PDF validation failed: HTTP', response.status, response.statusText);
+    return false;
+    
+  } catch (error) {
+    console.warn('PDF validation failed:', error.message);
+    
+    // Fallback: try a small GET request
+    try {
+      console.log('Trying fallback GET request for PDF validation');
+      
+      const fallbackResponse = await fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Range': 'bytes=0-1023'
+        }
+      });
+      
+      if (fallbackResponse.ok) {
+        const contentType = fallbackResponse.headers.get('content-type') || '';
+        const isValidContentType = contentType.toLowerCase().includes('application/pdf');
+        
+        if (isValidContentType) {
+          console.log('✅ PDF validation successful with fallback GET request');
+        }
+        
+        return isValidContentType;
+      }
+    } catch (fallbackError) {
+      console.warn('PDF validation fallback also failed:', fallbackError.message);
+    }
+    
+    return false;
+  }
+}
+
+// Monitor for PDF uploads and iframe changes
+async function monitorPdfChanges() {
+  // 1. PRIORITIZE: Check file inputs first (most reliable)
+  const uploadedFile = getPdfFromFileInputs();
+  
+  if (uploadedFile) {
+    if (!pdfDetected) {
+      cachedUploadedFile = uploadedFile; // ✅ Cache the file for later use
+      pdfDetected = true;
+      console.log('✅ PDF detected and cached from file input:', uploadedFile.name);
+      
+      chrome.runtime.sendMessage({
+        type: 'PDF_DETECTED',
+        src: `File: ${uploadedFile.name}`,
+        actualPdfUrl: null, // File object, not URL
+        timestamp: Date.now()
+      }).catch(() => {});
+    }
+    return; // File input found, no need to check iframes
+  }
+
+  // 2. FALLBACK: Check iframes only if no file input found
+  const iframes = document.querySelectorAll('iframe[data-id-attr="iFrame-id"], iframe[src*=".pdf"], iframe[src*="storage/view"]');
+  
+  for (const iframe of iframes) {
+    if (iframe && iframe.src && !processedIframes.has(iframe.src)) {
+      try {
+        console.log('🔍 Checking new iframe:', iframe.src);
+        
+        const actualPdfUrl = extractActualPdfUrl(iframe.src);
+        const isValidPdf = await validatePdfUrl(actualPdfUrl);
+        
+        if (isValidPdf) {
+          pdfDetected = true;
+          console.log('✅ Valid PDF detected in iframe:', iframe.src);
+          console.log('📄 Actual PDF URL:', actualPdfUrl);
+          
+          chrome.runtime.sendMessage({
+            type: 'PDF_DETECTED',
+            src: iframe.src,
+            actualPdfUrl: actualPdfUrl,
+            timestamp: Date.now()
+          }).catch(() => {});
+          
+          break;
+        } else {
+          console.log('⏭️ Skipping non-PDF content:', iframe.src);
+        }
+      } catch (error) {
+        console.log('⚠️ Error checking iframe:', iframe.src, error.message);
+      } finally {
+        // ✅ Add to processed and trim memory in one place
+        processedIframes.add(iframe.src);
+        if (processedIframes.size > 50) {
+          const oldestIframe = processedIframes.values().next().value;
+          processedIframes.delete(oldestIframe);
+          console.log('🧹 Cleaned up old iframe tracking to prevent memory buildup');
+        }
+      }
+    }
+  }
+}
+
 
 // Run monitoring every 2 seconds
 setInterval(monitorPdfChanges, 2000);
@@ -55,29 +226,103 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
+// Get PDF from file inputs (most reliable method)
+function getPdfFromFileInputs() {
+  console.log('🔍 Checking file inputs for uploaded PDFs...');
+  
+  const fileInputs = document.querySelectorAll('input[type="file"]');
+  
+  for (const input of fileInputs) {
+    if (input.files && input.files.length > 0) {
+      for (const file of input.files) {
+        if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+          console.log('✅ Found PDF in file input:', file.name, `(${(file.size / 1024).toFixed(1)} KB)`);
+          return file;
+        }
+      }
+    }
+  }
+  
+  console.log('⏭️ No PDF files found in file inputs');
+  return null;
+}
+
+// Get PDF from iframes (fallback method)
+async function getPdfFromIframes() {
+  console.log('🔍 Falling back to iframe detection...');
+  
+  const iframes = document.querySelectorAll('iframe[data-id-attr="iFrame-id"], iframe[src*=".pdf"], iframe[src*="storage/view"]');
+  
+  if (!iframes || iframes.length === 0) {
+    throw new Error('No PDF iframe found on page');
+  }
+
+  console.log(`Found ${iframes.length} potential iframe(s)`);
+
+  for (const iframe of iframes) {
+    if (!iframe.src) continue;
+    
+    try {
+      console.log('Checking iframe:', iframe.src);
+      
+      const actualPdfUrl = extractActualPdfUrl(iframe.src);
+      console.log('Extracted PDF URL:', actualPdfUrl);
+      
+      const isValidPdf = await validatePdfUrl(actualPdfUrl);
+      if (isValidPdf) {
+        console.log('✅ Found valid PDF in iframe:', actualPdfUrl);
+        return actualPdfUrl;
+      } else {
+        console.log('⏭️ Skipping non-PDF iframe:', iframe.src);
+      }
+    } catch (error) {
+      console.log('⚠️ Error validating iframe:', iframe.src, error.message);
+      // Continue to next iframe
+    }
+  }
+
+  throw new Error('No valid PDF content found in any iframe');
+}
+
 // Main function to download PDF and process form
 async function handleDownloadAndProcess() {
   try {
-    // 1. Find PDF iframe
-    const iframe = document.querySelector('iframe[data-id-attr="iFrame-id"], iframe[src*=".pdf"], iframe[src*="storage/view"]');
-    if (!iframe || !iframe.src) {
-      throw new Error('No PDF iframe found on page');
+    let pdfBlob = null;
+    let pdfBase64 = null;
+
+    // 1. PRIORITIZE: Use cached file or check file inputs
+    const uploadedFile = getPdfFromFileInputs() || cachedUploadedFile;
+
+    
+    if (uploadedFile) {
+      console.log('📄 Using uploaded file from', cachedUploadedFile ? 'cache' : 'file input');
+      pdfBlob = uploadedFile;
+      pdfBase64 = await blobToBase64(pdfBlob);
+    } else {
+      // 2. FALLBACK: Try iframe detection
+      console.log('⚠️ No file input found, trying iframe method...');
+      
+      const validPdfUrl = await getPdfFromIframes();
+      
+      // 3. Download actual PDF content from iframe URL
+      const pdfResponse = await fetch(validPdfUrl);
+      if (!pdfResponse.ok) {
+        throw new Error(`Failed to download PDF: ${pdfResponse.status} ${pdfResponse.statusText}`);
+      }
+
+      // Verify content type(Second check- safety purpose)
+      const contentType = pdfResponse.headers.get('content-type') || '';
+      if (!contentType.toLowerCase().includes('application/pdf')) {
+        throw new Error(`Expected PDF but got ${contentType}`);
+      }
+
+      pdfBlob = await pdfResponse.blob();
+      pdfBase64 = await blobToBase64(pdfBlob);
     }
 
-    console.log('Found PDF iframe:', iframe.src);
+    console.log('📄 PDF ready for processing, size:', pdfBlob.size, 'bytes');
 
-    // 2. Download PDF content
-    const pdfResponse = await fetch(iframe.src);
-    if (!pdfResponse.ok) {
-      throw new Error('Failed to download PDF');
-    }
-
-    const pdfBlob = await pdfResponse.blob();
-    const pdfBase64 = await blobToBase64(pdfBlob);
-
-    console.log('PDF downloaded, size:', pdfBlob.size, 'bytes');
-
-    // 3. Scan form schema
+    // 4. Scan form schema
     const formSchema = scanFormFields();
     console.log('Form schema:', formSchema);
 
@@ -85,7 +330,7 @@ async function handleDownloadAndProcess() {
       throw new Error('No form fields found on page');
     }
 
-    // 4. Get API endpoint
+    // 5. Get API endpoint
     const result = await new Promise(resolve => {
       chrome.storage.local.get(['apiEndpoint'], resolve);
     });
@@ -96,7 +341,7 @@ async function handleDownloadAndProcess() {
 
     const apiEndpoint = result.apiEndpoint;
 
-    // 5. Send to backend for processing
+    // 6. Send to backend for processing
     const processingResponse = await fetch(apiEndpoint, {
       method: 'POST',
       headers: {
@@ -115,8 +360,12 @@ async function handleDownloadAndProcess() {
     const extractedData = await processingResponse.json();
     console.log('Extracted data:', extractedData);
 
-    // 6. Fill form with extracted data
+    // 7. Fill form with extracted data
     const fillResult = fillFormFields(extractedData);
+
+    // 🔐 Clear cache after successful processing
+    cachedUploadedFile = null;
+    console.log('🧹 Cleared cached file after successful processing');
 
     return {
       success: true,
@@ -126,6 +375,10 @@ async function handleDownloadAndProcess() {
 
   } catch (error) {
     console.error('Error in downloadAndProcess:', error);
+    
+    // 🔐 Clear cache on error to prevent memory leaks
+    cachedUploadedFile = null;
+    
     return {
       success: false,
       message: error.message
@@ -136,26 +389,42 @@ async function handleDownloadAndProcess() {
 // Main function to download PDF and summarize it (standalone process)
 async function handleSummarizePdf() {
   try {
-    // 1. Find PDF iframe
-    const iframe = document.querySelector('iframe[data-id-attr="iFrame-id"], iframe[src*=".pdf"], iframe[src*="storage/view"]');
-    if (!iframe || !iframe.src) {
-      throw new Error('No PDF iframe found on page');
+    let pdfBlob = null;
+    let pdfBase64 = null;
+
+    // 1. PRIORITIZE: Use cached file or check file inputs
+    const uploadedFile = getPdfFromFileInputs() || cachedUploadedFile;
+
+    
+    if (uploadedFile) {
+      console.log('📄 Using uploaded file from', cachedUploadedFile ? 'cache' : 'file input', 'for summarization');
+      pdfBlob = uploadedFile;
+      pdfBase64 = await blobToBase64(pdfBlob);
+    } else {
+      // 2. FALLBACK: Try iframe detection
+      console.log('⚠️ No file input found for summarization, trying iframe method...');
+      
+      const validPdfUrl = await getPdfFromIframes();
+      
+      // 3. Download actual PDF content from iframe URL
+      const pdfResponse = await fetch(validPdfUrl);
+      if (!pdfResponse.ok) {
+        throw new Error(`Failed to download PDF for summarization: ${pdfResponse.status} ${pdfResponse.statusText}`);
+      }
+
+      // Verify content type
+      const contentType = pdfResponse.headers.get('content-type') || '';
+      if (!contentType.toLowerCase().includes('application/pdf')) {
+        throw new Error(`Expected PDF but got ${contentType} for summarization`);
+      }
+
+      pdfBlob = await pdfResponse.blob();
+      pdfBase64 = await blobToBase64(pdfBlob);
     }
 
-    console.log('Found PDF iframe for summarization:', iframe.src);
+    console.log('📄 PDF ready for summarization, size:', pdfBlob.size, 'bytes');
 
-    // 2. Download PDF content
-    const pdfResponse = await fetch(iframe.src);
-    if (!pdfResponse.ok) {
-      throw new Error('Failed to download PDF for summarization');
-    }
-
-    const pdfBlob = await pdfResponse.blob();
-    const pdfBase64 = await blobToBase64(pdfBlob);
-
-    console.log('PDF downloaded for summarization, size:', pdfBlob.size, 'bytes');
-
-    // 3. Get API endpoint for summarization
+    // 4. Get API endpoint for summarization
     const result = await new Promise(resolve => {
       chrome.storage.local.get(['apiEndpoint'], resolve);
     });
@@ -193,6 +462,10 @@ async function handleSummarizePdf() {
       throw new Error(summaryData.message || 'Summarization failed');
     }
 
+    // 🔐 Clear cache after successful summarization
+    cachedUploadedFile = null;
+    console.log('🧹 Cleared cached file after successful summarization');
+
     return {
       success: true,
       message: 'PDF summarized successfully',
@@ -202,6 +475,10 @@ async function handleSummarizePdf() {
 
   } catch (error) {
     console.error('Error in handleSummarizePdf:', error);
+    
+    // 🔐 Clear cache on error to prevent memory leaks
+    cachedUploadedFile = null;
+    
     return {
       success: false,
       message: error.message
@@ -683,6 +960,12 @@ function detectUploadCompletion() {
       if (event.target.files.length > 0) {
         console.log('📄 New file selected for upload:', event.target.files[0].name);
         
+        // Reset PDF detection state for new upload
+        pdfDetected = false;
+        cachedUploadedFile = null; // Clear cached file for new upload
+        processedIframes.clear();
+        console.log('🧹 Reset PDF detection state and cleared cache for new upload');
+        
         // Clear the form immediately when new file is selected
         clearFormFields();
         
@@ -695,6 +978,11 @@ function detectUploadCompletion() {
           if (iframe && iframe.src && iframe.src.includes('storage/view')) {
             clearInterval(uploadMonitor);
             console.log('✅ Upload completed, PDF available in iframe');
+            
+            // Reset state for newly uploaded PDF
+            cachedUploadedFile = null; // Clear any previous cached file
+            processedIframes.clear();
+            console.log('🧹 Cleared cache and processed iframes for new upload detection');
             
             // Send message about upload completion
             chrome.runtime.sendMessage({

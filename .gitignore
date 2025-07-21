@@ -1,5 +1,10 @@
 uploads/*
 .env
+file-detector-extension/
+certificate.crt
+private.key
+request.csr
+
 
 venv/*
 
