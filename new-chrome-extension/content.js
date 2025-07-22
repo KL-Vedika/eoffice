@@ -675,163 +675,81 @@ function getFieldLabel(field) {
 }
 
 // Fill form fields with extracted data (enhanced version)
-function fillFormFields(data) {
-  let filled = 0;
-  let total = 0;
+function fillFormFields(apiData) {
+  let fieldsFilledCount = 0;
+  let fieldsNotFound = [];
+  let errorsEncountered = [];
 
-  // Backend already merges all data, so use it directly
-  console.log('🎯 Extracted data to fill:', data);
+  console.log("📦 Data received for filling:", apiData);
 
-  // Use same targeting logic as scanFormFields
-  const targetForm = document.getElementById('eofficeForm');
-  const searchContext = targetForm || document;
-
-  if (targetForm) {
-    console.log('Filling fields within eofficeForm');
-  } else {
-    console.log('eofficeForm not found, filling fields in entire document');
+  if (!apiData || typeof apiData !== 'object') {
+    console.error("❌ Invalid data for form filling:", apiData);
+    return { success: false, fieldsFilled: 0, message: 'Invalid data received.' };
   }
 
-  Object.keys(data).forEach(fieldId => {
-    // Skip metadata fields
-    if (['success', 'message', 'pages_processed', 'successful_pages', 'fields_extracted', 'temp_id'].includes(fieldId)) {
-      return;
-    }
+  for (const key in apiData) {
+    if (!Object.hasOwnProperty.call(apiData, key)) continue;
 
-    const value = data[fieldId];
-    if (value === null || value === undefined || value === '') {
-      console.log(`⏭️ Skipping empty value for field: ${fieldId}`);
-      return;
-    }
+    const value = apiData[key];
+    let element = null;
 
-    // Try multiple ways to find the field within the target context
-    let field = searchContext.querySelector(`#${fieldId}`) || 
-                searchContext.querySelector(`[name="${fieldId}"]`) ||
-                document.getElementById(fieldId) || 
-                document.querySelector(`[name="${fieldId}"]`);
+    try {
+      // Only look for elements by exact match: name or ID
+      element = document.querySelector(`[name="${key}"]`) || document.getElementById(key);
 
-    if (field) {
-      total++;
-      
-      try {
-        const fieldType = field.type || field.tagName.toLowerCase();
-        let success = false;
+      if (!element) {
+        console.warn(`⚠️ Element not found for: ${key}`);
+        fieldsNotFound.push(key);
+        continue;
+      }
 
-        if (fieldType === 'radio') {
-          // Handle radio buttons - find all radios with same name and select the matching one
-          const radioGroup = searchContext.querySelectorAll(`input[type="radio"][name="${field.name}"]`);
-          radioGroup.forEach(radio => {
-            if (radio.value === String(value) || 
-                radio.value.toLowerCase() === String(value).toLowerCase()) {
-              radio.checked = true;
-              success = true;
-              console.log(`🔘 Selected radio ${fieldId} with value:`, value);
-            } else {
-              radio.checked = false; // Uncheck others in the group
-            }
-          });
-        }
-        else if (fieldType === 'checkbox') {
-          // Handle checkboxes - could be single or group
-          const checkboxGroup = searchContext.querySelectorAll(`input[type="checkbox"][name="${field.name}"]`);
-          
-          if (checkboxGroup.length === 1) {
-            // Single checkbox
-            field.checked = Boolean(value) || String(value).toLowerCase() === 'true' || String(value).toLowerCase() === 'yes';
-            success = true;
-          } else {
-            // Checkbox group - value might be array or comma-separated string
-            let valuesToCheck = [];
-            if (Array.isArray(value)) {
-              valuesToCheck = value.map(v => String(v));
-            } else {
-              valuesToCheck = String(value).split(',').map(v => v.trim());
-            }
-            
-            checkboxGroup.forEach(cb => {
-              cb.checked = valuesToCheck.some(val => 
-                cb.value === val || cb.value.toLowerCase() === val.toLowerCase()
-              );
-            });
-            success = true;
-          }
-        }
-        else if (fieldType === 'select') {
-          // Enhanced select option matching
-          const option = Array.from(field.options).find(opt => {
-            const optValue = opt.value.toLowerCase();
-            const optText = opt.text.toLowerCase();
-            const searchValue = String(value).toLowerCase();
-            
-            return optValue === searchValue || 
-                   optText === searchValue ||
-                   optText.includes(searchValue) ||
-                   searchValue.includes(optText);
-          });
-          
-          if (option) {
-            field.value = option.value;
-            success = true;
-          } else {
-            console.warn(`⚠️ No matching option found for ${fieldId}, available options:`, 
-              Array.from(field.options).map(opt => `${opt.value}:"${opt.text}"`));
-          }
-        }
-        else if (fieldType === 'date') {
-          // Handle date formatting
-          const dateValue = formatDateForInput(value);
-          if (dateValue) {
-            field.value = dateValue;
-            success = true;
-          }
-        }
-        else if (fieldType === 'number') {
-          // Handle number fields
-          const numValue = parseFloat(String(value).replace(/[^\d.-]/g, ''));
-          if (!isNaN(numValue)) {
-            field.value = numValue;
-            success = true;
-          }
-        }
-        else {
-          // Text fields and others
-          field.value = String(value);
-          success = true;
-        }
-        
-        if (success) {
-          // Trigger multiple events to ensure compatibility
-          field.dispatchEvent(new Event('input', { bubbles: true }));
-          field.dispatchEvent(new Event('change', { bubbles: true }));
-          field.dispatchEvent(new Event('blur', { bubbles: true }));
-          
-          filled++;
-          console.log(`✅ Filled field ${fieldId} (${fieldType}):`, value);
+      const type = element.type || element.tagName.toLowerCase();
+
+      if (type === 'checkbox') {
+        element.checked = value === true || String(value).toLowerCase() === 'true' || value === 1;
+      } else if (type === 'radio') {
+        const radio = document.querySelector(`input[type="radio"][name="${key}"][value="${value}"]`);
+        if (radio) {
+          radio.checked = true;
         } else {
-          console.warn(`⚠️ Failed to fill field ${fieldId} with value:`, value);
+          console.warn(`⚠️ No matching radio for ${key} with value "${value}"`);
+          fieldsNotFound.push(`${key} (radio: "${value}")`);
+          continue;
         }
-        
-      } catch (error) {
-        console.error(`❌ Error filling field ${fieldId}:`, error);
+      } else if (type === 'select-one' || element.tagName === 'SELECT') {
+        const option = Array.from(element.options).find(opt => opt.value == value);
+        if (option) {
+          element.value = value;
+        } else {
+          console.warn(`⚠️ No matching <option> for select ${key} with value "${value}"`);
+          fieldsNotFound.push(`${key} (select: "${value}")`);
+          continue;
+        }
+      } else {
+        element.value = String(value);
       }
-    } else {
-      console.warn(`⚠️ Field not found: ${fieldId}`);
-      
-      // Try to find similar field names (helpful for debugging)
-      const allFields = searchContext.querySelectorAll('input, select, textarea');
-      const similarFields = Array.from(allFields)
-        .filter(f => (f.id || f.name) && (f.id || f.name).toLowerCase().includes(fieldId.toLowerCase()))
-        .map(f => f.id || f.name);
-      
-      if (similarFields.length > 0) {
-        console.log(`💡 Similar field names found: ${similarFields.join(', ')}`);
-      }
-    }
-  });
 
-  console.log(`📊 Form filling completed: ${filled}/${total} fields filled successfully`);
-  return { filled, total };
+      // Trigger change/input events to mimic user input
+      element.dispatchEvent(new Event('input', { bubbles: true }));
+      element.dispatchEvent(new Event('change', { bubbles: true }));
+
+      fieldsFilledCount++;
+    } catch (e) {
+      console.error(`❌ Error filling field "${key}":`, e);
+      errorsEncountered.push(`${key}: ${e.message}`);
+    }
+  }
+
+  const message = `✅ ${fieldsFilledCount} field(s) filled. ${fieldsNotFound.length > 0 ? '⚠️ Missing: ' + fieldsNotFound.join(', ') + '.' : ''}`;
+  return {
+    success: fieldsNotFound.length === 0,
+    fieldsFilled: fieldsFilledCount,
+    fieldsNotFound,
+    errorsEncountered,
+    message,
+  };
 }
+
 
 // Helper function to format date values for date inputs
 function formatDateForInput(dateValue) {
