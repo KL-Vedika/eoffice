@@ -692,55 +692,99 @@ function fillFormFields(apiData) {
 
     const value = apiData[key];
     let element = null;
+    let selectorUsed = null;
 
     try {
-      // Only look for elements by exact match: name or ID
-      element = document.querySelector(`[name="${key}"]`) || document.getElementById(key);
+      // Try multiple selectors
+      const selectors = [
+        `[formcontrolname="${key}"]`,
+        `[name="${key}"]`,
+        `#${key}`
+      ];
+
+      for (const selector of selectors) {
+        element = document.querySelector(selector);
+        if (element) {
+          selectorUsed = selector;
+          break;
+        }
+      }
 
       if (!element) {
-        console.warn(`⚠️ Element not found for: ${key}`);
+        console.warn(`⚠️ Element not found for key "${key}". Tried selectors: ${selectors.join(', ')}`);
         fieldsNotFound.push(key);
         continue;
       }
 
       const type = element.type || element.tagName.toLowerCase();
+      const attrMap = Array.from(element.attributes || []).reduce((acc, attr) => {
+        acc[attr.name] = attr.value;
+        return acc;
+      }, {});
+
+      console.log(`🔍 Element found for key "${key}" using selector: ${selectorUsed}`);
+      console.log(`📑 Attributes:`, attrMap);
+      console.log(`📌 Detected input type: ${type}`);
+      console.log(`✍️ Attempting to fill with value:`, value);
 
       if (type === 'checkbox') {
         element.checked = value === true || String(value).toLowerCase() === 'true' || value === 1;
-      } else if (type === 'radio') {
-        const radio = document.querySelector(`input[type="radio"][name="${key}"][value="${value}"]`);
+        console.log(`☑️ Checkbox set to:`, element.checked);
+      }
+
+      else if (type === 'radio') {
+        const radio = document.querySelector(`input[type="radio"][formcontrolname="${key}"][value="${value}"]`)
+                  || document.querySelector(`input[type="radio"][name="${key}"][value="${value}"]`);
         if (radio) {
           radio.checked = true;
+          console.log(`🔘 Radio selected: ${key} = ${value}`);
         } else {
           console.warn(`⚠️ No matching radio for ${key} with value "${value}"`);
           fieldsNotFound.push(`${key} (radio: "${value}")`);
           continue;
         }
-      } else if (type === 'select-one' || element.tagName === 'SELECT') {
-        const option = Array.from(element.options).find(opt => opt.value == value);
-        if (option) {
-          element.value = value;
+      }
+
+      else if (type === 'select-one' || element.tagName === 'SELECT') {
+        const options = Array.from(element.options || []);
+        const matched = options.find(opt => opt.value == value);
+        if (matched) {
+          element.value = matched.value;
+          console.log(`🔽 Select set to value: ${matched.value}`);
         } else {
-          console.warn(`⚠️ No matching <option> for select ${key} with value "${value}"`);
+          console.warn(`⚠️ No matching <option> for <select> ${key} with value "${value}".`);
+          console.log(`📋 Available options:`, options.map(opt => `${opt.value}: "${opt.text}"`));
           fieldsNotFound.push(`${key} (select: "${value}")`);
           continue;
         }
-      } else {
-        element.value = String(value);
       }
 
-      // Trigger change/input events to mimic user input
-      element.dispatchEvent(new Event('input', { bubbles: true }));
-      element.dispatchEvent(new Event('change', { bubbles: true }));
+      else {
+        element.value = String(value);
+        console.log(`⌨️ Input set to: ${element.value}`);
+      }
+
+      // Trigger Angular-compatible events
+      ['input', 'change', 'blur'].forEach(eventType => {
+        element.dispatchEvent(new Event(eventType, { bubbles: true }));
+        console.log(`📤 Event dispatched: '${eventType}' for "${key}"`);
+      });
 
       fieldsFilledCount++;
-    } catch (e) {
-      console.error(`❌ Error filling field "${key}":`, e);
+      console.log(`✅ Field "${key}" filled successfully.\n`);
+    }
+
+    catch (e) {
+      console.error(`❌ Error filling "${key}":`, e);
       errorsEncountered.push(`${key}: ${e.message}`);
     }
   }
 
   const message = `✅ ${fieldsFilledCount} field(s) filled. ${fieldsNotFound.length > 0 ? '⚠️ Missing: ' + fieldsNotFound.join(', ') + '.' : ''}`;
+  console.log(`📊 Summary:\n- ✅ Filled: ${fieldsFilledCount}\n- ⚠️ Not Found: ${fieldsNotFound.length}\n- ❌ Errors: ${errorsEncountered.length}`);
+  if (fieldsNotFound.length) console.warn(`Missing fields:`, fieldsNotFound);
+  if (errorsEncountered.length) console.warn(`Errors encountered:`, errorsEncountered);
+
   return {
     success: fieldsNotFound.length === 0,
     fieldsFilled: fieldsFilledCount,

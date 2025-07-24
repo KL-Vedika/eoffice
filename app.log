@@ -97,3 +97,554 @@
 2025-07-22 15:37:44,791 - config - INFO - Enhanced sequential processing completed. Final confidence: 1.0
 2025-07-22 15:37:44,793 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
 2025-07-22 15:44:30,139 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 07:56:10,541 - config - INFO - Successfully converted 1 pages from PDF
+2025-07-23 07:56:10,551 - config - INFO - [SEQUENTIAL] Processing 1 pages with context carryover
+2025-07-23 07:56:10,551 - config - INFO - Enhanced sequential processing of 1 images
+2025-07-23 07:56:10,552 - config - INFO - Processing page 1/1
+2025-07-23 07:56:14,351 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 07:56:21,932 - config - INFO - [SUCCESS] Page 1 completed with confidence: 1.0
+2025-07-23 07:56:21,933 - config - INFO - Enhanced sequential processing completed. Final confidence: 1.0
+2025-07-23 07:56:21,935 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 08:43:56,708 - config - INFO - Successfully converted 1 pages from PDF
+2025-07-23 08:43:56,711 - config - INFO - [SEQUENTIAL] Processing 1 pages with context carryover
+2025-07-23 08:43:56,711 - config - INFO - Enhanced sequential processing of 1 images
+2025-07-23 08:43:56,711 - config - INFO - Processing page 1/1
+2025-07-23 08:44:02,758 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 08:44:09,971 - config - ERROR - JSON parsing error on page 1: Extra data: line 1 column 14 (char 13)
+2025-07-23 08:44:09,972 - config - ERROR - Raw content:         "letterRefNo": "ICMR/DHR/2024/734",
+        "letterDate": "10th July 2024",
+        "subject": "Request for Approval of Research Grant for 'Genomic Surveillance of Emerging Viral Pathogens'",
+        "senderConfidence": 1.0,
+        "senderConfidenceReason": "Clear signature block with name + indicators (Sd/-, Sincerely, signature mark) + designation and organisation",
+        "name": "Anjali Sharma",
+        "designation": "Director General",
+        "organisation": "Indian Council of Medical Research (ICMR)",
+        "country": "India"
+        "vipType": null,
+        "sender": null,
+        "addToAddressBook": false,
+        "orgLevel": null,
+        "category": null,
+        "subCategory": null,
+        "language-input": "English",
+        "comms-form-input": "Letter",
+        "deliveryMode": null,
+        "deliveryModeNo": null,
+        "diaryDate": null,
+        "receivedDate": null,
+        "remarks": null,
+        "acknowledgement": false,
+        "receiptNature": null
+
+2025-07-23 08:44:09,974 - config - ERROR - [ERROR] Page 1 failed: Extra data: line 1 column 14 (char 13)
+2025-07-23 08:44:09,975 - config - INFO - Enhanced sequential processing completed. Final confidence: N/A
+2025-07-23 08:44:09,977 - config - INFO - [SUCCESS] Sequential extraction complete: No data
+2025-07-23 16:04:58,136 - config - INFO - Successfully converted 1 pages from PDF
+2025-07-23 16:04:58,140 - config - INFO - [SEQUENTIAL] Processing 1 pages with context carryover
+2025-07-23 16:04:58,140 - config - INFO - Enhanced sequential processing of 1 images
+2025-07-23 16:04:58,141 - config - INFO - Processing page 1/1
+2025-07-23 16:05:04,131 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 16:05:10,721 - config - INFO - [SUCCESS] Page 1 completed with confidence: 0.7
+2025-07-23 16:05:10,722 - config - INFO - Enhanced sequential processing completed. Final confidence: 0.7
+2025-07-23 16:05:10,724 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 16:31:10,357 - config - INFO - Successfully converted 1 pages from PDF
+2025-07-23 16:31:10,359 - config - INFO - [SEQUENTIAL] Processing 1 pages with context carryover
+2025-07-23 16:31:10,359 - config - INFO - Enhanced sequential processing of 1 images
+2025-07-23 16:31:10,359 - config - INFO - Processing page 1/1
+2025-07-23 16:31:29,543 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 16:31:29,552 - config - INFO - [SUCCESS] Page 1 completed with confidence: 0.5
+2025-07-23 16:31:29,553 - config - INFO - Enhanced sequential processing completed. Final confidence: 0.5
+2025-07-23 16:31:29,555 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 16:32:55,590 - config - INFO - Successfully converted 1 pages from PDF
+2025-07-23 16:32:55,593 - config - INFO - [SEQUENTIAL] Processing 1 pages with context carryover
+2025-07-23 16:32:55,594 - config - INFO - Enhanced sequential processing of 1 images
+2025-07-23 16:32:55,594 - config - INFO - Processing page 1/1
+2025-07-23 16:32:58,332 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 16:32:58,335 - openai._base_client - INFO - Retrying request to /chat/completions in 0.497857 seconds
+2025-07-23 16:32:59,467 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 16:32:59,470 - openai._base_client - INFO - Retrying request to /chat/completions in 0.988675 seconds
+2025-07-23 16:33:00,953 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 16:33:00,954 - config - ERROR - Processing error on page 1: Error code: 502 - {'error': 'no available upstreams'}
+2025-07-23 16:33:00,955 - config - ERROR - [ERROR] Page 1 failed: Error code: 502 - {'error': 'no available upstreams'}
+2025-07-23 16:33:00,956 - config - INFO - Enhanced sequential processing completed. Final confidence: N/A
+2025-07-23 16:33:00,957 - config - INFO - [SUCCESS] Sequential extraction complete: No data
+2025-07-23 16:38:04,088 - config - INFO - Successfully converted 1 pages from PDF
+2025-07-23 16:38:04,092 - config - INFO - [SEQUENTIAL] Processing 1 pages with context carryover
+2025-07-23 16:38:04,092 - config - INFO - Enhanced sequential processing of 1 images
+2025-07-23 16:38:04,092 - config - INFO - Processing page 1/1
+2025-07-23 16:38:15,915 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 16:38:15,922 - config - INFO - [SUCCESS] Page 1 completed with confidence: 0.5
+2025-07-23 16:38:15,923 - config - INFO - Enhanced sequential processing completed. Final confidence: 0.5
+2025-07-23 16:38:15,925 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 16:40:36,693 - config - INFO - Successfully converted 1 pages from PDF
+2025-07-23 16:40:36,695 - config - INFO - [SEQUENTIAL] Processing 1 pages with context carryover
+2025-07-23 16:40:36,695 - config - INFO - Enhanced sequential processing of 1 images
+2025-07-23 16:40:36,696 - config - INFO - Processing page 1/1
+2025-07-23 16:40:47,254 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 16:40:47,259 - config - INFO - [SUCCESS] Page 1 completed with confidence: 0.5
+2025-07-23 16:40:47,259 - config - INFO - Enhanced sequential processing completed. Final confidence: 0.5
+2025-07-23 16:40:47,260 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 16:41:31,665 - config - INFO - Converting PDF to images: C:\Users\caw\AppData\Local\Temp\temp_pdf_c3ba825b75e5.pdf
+2025-07-23 16:41:32,927 - config - INFO - Successfully converted 1 pages to base64
+2025-07-23 16:41:33,615 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 16:41:33,616 - openai._base_client - INFO - Retrying request to /chat/completions in 0.455785 seconds
+2025-07-23 16:41:46,864 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 16:41:46,869 - config - INFO - Successfully received inference response
+2025-07-23 17:00:31,075 - config - INFO - Successfully converted 1 pages from PDF
+2025-07-23 17:00:31,078 - config - INFO - [SEQUENTIAL] Processing 1 pages with context carryover
+2025-07-23 17:00:31,078 - config - INFO - Enhanced sequential processing of 1 images
+2025-07-23 17:00:31,079 - config - INFO - Processing page 1/1
+2025-07-23 17:00:36,719 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:00:52,789 - config - INFO - [SUCCESS] Page 1 completed with confidence: 0.7
+2025-07-23 17:00:52,791 - config - INFO - Enhanced sequential processing completed. Final confidence: 0.7
+2025-07-23 17:00:52,793 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 17:19:31,520 - config - INFO - Successfully converted 5 pages from PDF
+2025-07-23 17:19:31,531 - config - INFO - [SEQUENTIAL] Processing 5 pages with context carryover
+2025-07-23 17:19:31,534 - config - INFO - Enhanced sequential processing of 5 images
+2025-07-23 17:19:31,535 - config - INFO - Processing page 1/5
+2025-07-23 17:19:36,742 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:19:44,924 - config - INFO - [SUCCESS] Page 1 completed with confidence: 0.7
+2025-07-23 17:19:44,925 - config - INFO - Processing page 2/5
+2025-07-23 17:19:48,723 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:19:54,320 - config - INFO - [SUCCESS] Page 2 completed with confidence: 0.7
+2025-07-23 17:19:54,321 - config - INFO - Processing page 3/5
+2025-07-23 17:19:58,307 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:20:39,501 - config - INFO - Successfully converted 5 pages from PDF
+2025-07-23 17:20:39,505 - config - INFO - [SEQUENTIAL] Processing 5 pages with context carryover
+2025-07-23 17:20:39,505 - config - INFO - Enhanced sequential processing of 5 images
+2025-07-23 17:20:39,506 - config - INFO - Processing page 1/5
+2025-07-23 17:20:41,604 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:20:41,611 - openai._base_client - INFO - Retrying request to /chat/completions in 0.407843 seconds
+2025-07-23 17:20:42,580 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:20:42,581 - openai._base_client - INFO - Retrying request to /chat/completions in 0.913048 seconds
+2025-07-23 17:20:44,328 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:20:44,330 - config - ERROR - Processing error on page 1: Error code: 502 - {'error': 'upstream unreachable'}
+2025-07-23 17:20:44,331 - config - ERROR - [ERROR] Page 1 failed: Error code: 502 - {'error': 'upstream unreachable'}
+2025-07-23 17:20:44,332 - config - INFO - Processing page 2/5
+2025-07-23 17:20:44,937 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:20:44,939 - openai._base_client - INFO - Retrying request to /chat/completions in 0.377107 seconds
+2025-07-23 17:20:45,877 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:20:45,879 - openai._base_client - INFO - Retrying request to /chat/completions in 0.841930 seconds
+2025-07-23 17:20:47,707 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:20:47,710 - config - ERROR - Processing error on page 2: Error code: 502 - {'error': 'upstream unreachable'}
+2025-07-23 17:20:47,711 - config - ERROR - [ERROR] Page 2 failed: Error code: 502 - {'error': 'upstream unreachable'}
+2025-07-23 17:20:47,712 - config - INFO - Processing page 3/5
+2025-07-23 17:20:48,615 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:20:48,618 - openai._base_client - INFO - Retrying request to /chat/completions in 0.426475 seconds
+2025-07-23 17:20:49,990 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:20:50,035 - openai._base_client - INFO - Retrying request to /chat/completions in 0.932147 seconds
+2025-07-23 17:20:51,820 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:20:51,821 - config - ERROR - Processing error on page 3: Error code: 502 - {'error': 'upstream unreachable'}
+2025-07-23 17:20:51,822 - config - ERROR - [ERROR] Page 3 failed: Error code: 502 - {'error': 'upstream unreachable'}
+2025-07-23 17:20:51,822 - config - INFO - Processing page 4/5
+2025-07-23 17:20:53,749 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:20:53,750 - openai._base_client - INFO - Retrying request to /chat/completions in 0.465114 seconds
+2025-07-23 17:20:54,795 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:20:54,802 - openai._base_client - INFO - Retrying request to /chat/completions in 0.923337 seconds
+2025-07-23 17:20:56,196 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:20:56,198 - config - ERROR - Processing error on page 4: Error code: 502 - {'error': 'upstream unreachable'}
+2025-07-23 17:20:56,199 - config - ERROR - [ERROR] Page 4 failed: Error code: 502 - {'error': 'upstream unreachable'}
+2025-07-23 17:20:56,200 - config - INFO - Processing page 5/5
+2025-07-23 17:20:56,702 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:20:56,704 - openai._base_client - INFO - Retrying request to /chat/completions in 0.432914 seconds
+2025-07-23 17:20:57,635 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:20:57,637 - openai._base_client - INFO - Retrying request to /chat/completions in 0.827458 seconds
+2025-07-23 17:20:58,966 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:20:58,967 - config - ERROR - Processing error on page 5: Error code: 502 - {'error': 'upstream unreachable'}
+2025-07-23 17:20:58,967 - config - ERROR - [ERROR] Page 5 failed: Error code: 502 - {'error': 'upstream unreachable'}
+2025-07-23 17:20:58,967 - config - INFO - Enhanced sequential processing completed. Final confidence: N/A
+2025-07-23 17:20:58,968 - config - INFO - [SUCCESS] Sequential extraction complete: No data
+2025-07-23 17:21:59,288 - config - INFO - Successfully converted 1 pages from PDF
+2025-07-23 17:21:59,289 - config - INFO - [SEQUENTIAL] Processing 1 pages with context carryover
+2025-07-23 17:21:59,290 - config - INFO - Enhanced sequential processing of 1 images
+2025-07-23 17:21:59,290 - config - INFO - Processing page 1/1
+2025-07-23 17:22:29,857 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:22:29,884 - config - INFO - [SUCCESS] Page 1 completed with confidence: 0.5
+2025-07-23 17:22:29,885 - config - INFO - Enhanced sequential processing completed. Final confidence: 0.5
+2025-07-23 17:22:29,887 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 17:22:59,195 - config - INFO - Successfully converted 5 pages from PDF
+2025-07-23 17:22:59,202 - config - INFO - [SEQUENTIAL] Processing 5 pages with context carryover
+2025-07-23 17:22:59,203 - config - INFO - Enhanced sequential processing of 5 images
+2025-07-23 17:22:59,204 - config - INFO - Processing page 1/5
+2025-07-23 17:22:59,811 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:22:59,813 - openai._base_client - INFO - Retrying request to /chat/completions in 0.459096 seconds
+2025-07-23 17:23:00,830 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:23:00,831 - openai._base_client - INFO - Retrying request to /chat/completions in 0.954408 seconds
+2025-07-23 17:23:02,528 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:23:02,531 - config - ERROR - Processing error on page 1: Error code: 502 - {'error': 'no available upstreams'}
+2025-07-23 17:23:02,532 - config - ERROR - [ERROR] Page 1 failed: Error code: 502 - {'error': 'no available upstreams'}
+2025-07-23 17:23:02,533 - config - INFO - Processing page 2/5
+2025-07-23 17:23:03,201 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:23:03,203 - openai._base_client - INFO - Retrying request to /chat/completions in 0.416001 seconds
+2025-07-23 17:23:14,391 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:23:14,396 - config - INFO - [SUCCESS] Page 2 completed with confidence: 0.5
+2025-07-23 17:23:14,397 - config - INFO - Processing page 3/5
+2025-07-23 17:23:24,711 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:23:24,717 - config - INFO - [SUCCESS] Page 3 completed with confidence: 0.5
+2025-07-23 17:23:24,718 - config - INFO - Processing page 4/5
+2025-07-23 17:23:34,933 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:23:34,939 - config - INFO - [SUCCESS] Page 4 completed with confidence: 0.5
+2025-07-23 17:23:34,941 - config - INFO - Processing page 5/5
+2025-07-23 17:23:45,170 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:23:45,175 - config - INFO - [SUCCESS] Page 5 completed with confidence: 0.5
+2025-07-23 17:23:45,175 - config - INFO - Enhanced sequential processing completed. Final confidence: 0.5
+2025-07-23 17:23:45,177 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 17:24:38,118 - config - INFO - Converting PDF to images: C:\Users\caw\AppData\Local\Temp\temp_pdf_463b2695c2c7.pdf
+2025-07-23 17:24:45,913 - config - INFO - Successfully converted 5 pages to base64
+2025-07-23 17:25:07,859 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:25:07,865 - config - INFO - Successfully received inference response
+2025-07-23 17:32:00,173 - config - INFO - Successfully converted 15 pages from PDF
+2025-07-23 17:32:00,205 - config - INFO - [SEQUENTIAL] Processing 15 pages with context carryover
+2025-07-23 17:32:00,206 - config - INFO - Enhanced sequential processing of 15 images
+2025-07-23 17:32:00,206 - config - INFO - Processing page 1/15
+2025-07-23 17:32:01,207 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:32:01,231 - openai._base_client - INFO - Retrying request to /chat/completions in 0.377041 seconds
+2025-07-23 17:32:33,460 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:32:33,464 - config - INFO - [SUCCESS] Page 1 completed with confidence: 0.5
+2025-07-23 17:32:33,464 - config - INFO - Processing page 2/15
+2025-07-23 17:32:45,134 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:32:45,164 - config - INFO - [SUCCESS] Page 2 completed with confidence: 0.5
+2025-07-23 17:32:45,164 - config - INFO - Processing page 3/15
+2025-07-23 17:32:56,809 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:32:56,815 - config - INFO - [SUCCESS] Page 3 completed with confidence: 0.5
+2025-07-23 17:32:56,816 - config - INFO - Processing page 4/15
+2025-07-23 17:33:07,775 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:33:07,781 - config - INFO - [SUCCESS] Page 4 completed with confidence: 0.5
+2025-07-23 17:33:07,782 - config - INFO - Processing page 5/15
+2025-07-23 17:33:18,518 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:33:18,525 - config - INFO - [SUCCESS] Page 5 completed with confidence: 0.5
+2025-07-23 17:33:18,526 - config - INFO - Processing page 6/15
+2025-07-23 17:33:28,861 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:33:28,868 - config - INFO - [SUCCESS] Page 6 completed with confidence: 0.5
+2025-07-23 17:33:28,869 - config - INFO - Processing page 7/15
+2025-07-23 17:33:39,321 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:33:39,359 - config - INFO - [SUCCESS] Page 7 completed with confidence: 0.5
+2025-07-23 17:33:39,360 - config - INFO - Processing page 8/15
+2025-07-23 17:33:50,219 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:33:50,226 - config - INFO - [SUCCESS] Page 8 completed with confidence: 0.5
+2025-07-23 17:33:50,227 - config - INFO - Processing page 9/15
+2025-07-23 17:34:00,991 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:34:00,998 - config - INFO - [SUCCESS] Page 9 completed with confidence: 0.5
+2025-07-23 17:34:00,999 - config - INFO - Processing page 10/15
+2025-07-23 17:34:11,458 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:34:11,467 - config - INFO - [SUCCESS] Page 10 completed with confidence: 0.5
+2025-07-23 17:34:11,468 - config - INFO - Processing page 11/15
+2025-07-23 17:34:21,542 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:34:21,550 - config - INFO - [SUCCESS] Page 11 completed with confidence: 0.5
+2025-07-23 17:34:21,550 - config - INFO - Processing page 12/15
+2025-07-23 17:34:32,148 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:34:32,157 - config - INFO - [SUCCESS] Page 12 completed with confidence: 0.5
+2025-07-23 17:34:32,160 - config - INFO - Processing page 13/15
+2025-07-23 17:34:42,445 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:34:42,452 - config - INFO - [SUCCESS] Page 13 completed with confidence: 0.5
+2025-07-23 17:34:42,453 - config - INFO - Processing page 14/15
+2025-07-23 17:34:53,460 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:34:53,466 - config - INFO - [SUCCESS] Page 14 completed with confidence: 0.5
+2025-07-23 17:34:53,467 - config - INFO - Processing page 15/15
+2025-07-23 17:35:03,859 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:35:03,876 - config - INFO - [SUCCESS] Page 15 completed with confidence: 0.5
+2025-07-23 17:35:03,878 - config - INFO - Enhanced sequential processing completed. Final confidence: 0.5
+2025-07-23 17:35:03,900 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 17:39:23,498 - config - INFO - Successfully converted 5 pages from PDF
+2025-07-23 17:39:23,503 - config - INFO - [SEQUENTIAL] Processing 5 pages with context carryover
+2025-07-23 17:39:23,503 - config - INFO - Enhanced sequential processing of 5 images
+2025-07-23 17:39:23,503 - config - INFO - Processing page 1/5
+2025-07-23 17:39:36,579 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:39:36,588 - config - INFO - [SUCCESS] Page 1 completed with confidence: 0.5
+2025-07-23 17:39:36,589 - config - INFO - Processing page 2/5
+2025-07-23 17:39:47,376 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:39:47,382 - config - INFO - [SUCCESS] Page 2 completed with confidence: 0.5
+2025-07-23 17:39:47,383 - config - INFO - Processing page 3/5
+2025-07-23 17:39:58,167 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:39:58,169 - config - INFO - [SUCCESS] Page 3 completed with confidence: 0.5
+2025-07-23 17:39:58,169 - config - INFO - Processing page 4/5
+2025-07-23 17:40:09,103 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:40:09,111 - config - INFO - [SUCCESS] Page 4 completed with confidence: 0.8
+2025-07-23 17:40:09,112 - config - INFO - Processing page 5/5
+2025-07-23 17:40:20,075 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:40:20,083 - config - INFO - [SUCCESS] Page 5 completed with confidence: 0.8
+2025-07-23 17:40:20,085 - config - INFO - Enhanced sequential processing completed. Final confidence: 0.8
+2025-07-23 17:40:20,088 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 17:41:52,766 - config - INFO - Successfully converted 15 pages from PDF
+2025-07-23 17:41:52,779 - config - INFO - [SEQUENTIAL] Processing 15 pages with context carryover
+2025-07-23 17:41:52,779 - config - INFO - Enhanced sequential processing of 15 images
+2025-07-23 17:41:52,780 - config - INFO - Processing page 1/15
+2025-07-23 17:42:04,230 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:42:04,231 - config - INFO - [SUCCESS] Page 1 completed with confidence: 0.5
+2025-07-23 17:42:04,232 - config - INFO - Processing page 2/15
+2025-07-23 17:42:15,640 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:42:15,647 - config - INFO - [SUCCESS] Page 2 completed with confidence: 0.5
+2025-07-23 17:42:15,648 - config - INFO - Processing page 3/15
+2025-07-23 17:42:27,009 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:42:27,016 - config - INFO - [SUCCESS] Page 3 completed with confidence: 0.5
+2025-07-23 17:42:27,016 - config - INFO - Processing page 4/15
+2025-07-23 17:42:38,634 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:42:38,640 - config - INFO - [SUCCESS] Page 4 completed with confidence: 0.5
+2025-07-23 17:42:38,641 - config - INFO - Processing page 5/15
+2025-07-23 17:42:49,524 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:42:49,526 - config - INFO - [SUCCESS] Page 5 completed with confidence: 0.5
+2025-07-23 17:42:49,527 - config - INFO - Processing page 6/15
+2025-07-23 17:42:59,894 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:42:59,907 - config - INFO - [SUCCESS] Page 6 completed with confidence: 0.5
+2025-07-23 17:42:59,907 - config - INFO - Processing page 7/15
+2025-07-23 17:43:10,709 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:43:10,712 - config - INFO - [SUCCESS] Page 7 completed with confidence: 0.5
+2025-07-23 17:43:10,713 - config - INFO - Processing page 8/15
+2025-07-23 17:43:21,695 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:43:21,697 - config - INFO - [SUCCESS] Page 8 completed with confidence: 0.5
+2025-07-23 17:43:21,698 - config - INFO - Processing page 9/15
+2025-07-23 17:43:32,661 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:43:32,667 - config - INFO - [SUCCESS] Page 9 completed with confidence: 0.5
+2025-07-23 17:43:32,668 - config - INFO - Processing page 10/15
+2025-07-23 17:43:43,690 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:43:43,692 - config - INFO - [SUCCESS] Page 10 completed with confidence: 0.5
+2025-07-23 17:43:43,693 - config - INFO - Processing page 11/15
+2025-07-23 17:43:54,266 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:43:54,268 - config - INFO - [SUCCESS] Page 11 completed with confidence: 0.5
+2025-07-23 17:43:54,269 - config - INFO - Processing page 12/15
+2025-07-23 17:44:05,150 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:44:05,152 - config - INFO - [SUCCESS] Page 12 completed with confidence: 0.5
+2025-07-23 17:44:05,153 - config - INFO - Processing page 13/15
+2025-07-23 17:44:16,092 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:44:16,095 - config - INFO - [SUCCESS] Page 13 completed with confidence: 0.5
+2025-07-23 17:44:16,095 - config - INFO - Processing page 14/15
+2025-07-23 17:44:27,337 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:44:27,341 - config - INFO - [SUCCESS] Page 14 completed with confidence: 0.5
+2025-07-23 17:44:27,341 - config - INFO - Processing page 15/15
+2025-07-23 17:44:38,011 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:44:38,016 - config - INFO - [SUCCESS] Page 15 completed with confidence: 0.5
+2025-07-23 17:44:38,017 - config - INFO - Enhanced sequential processing completed. Final confidence: 0.5
+2025-07-23 17:44:38,020 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 17:54:21,296 - config - INFO - Successfully converted 15 pages from PDF
+2025-07-23 17:54:21,310 - config - INFO - [SEQUENTIAL] Processing 15 pages with context carryover
+2025-07-23 17:54:21,310 - config - INFO - Enhanced sequential processing of 15 images
+2025-07-23 17:54:21,311 - config - INFO - Processing page 1/15
+2025-07-23 17:54:22,928 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:54:22,929 - openai._base_client - INFO - Retrying request to /chat/completions in 0.450704 seconds
+2025-07-23 17:54:23,930 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 17:54:23,932 - openai._base_client - INFO - Retrying request to /chat/completions in 0.760727 seconds
+2025-07-23 17:54:58,233 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:54:58,243 - config - INFO - [SUCCESS] Page 1 completed with confidence: 1.0
+2025-07-23 17:54:58,244 - config - INFO - Processing page 2/15
+2025-07-23 17:55:10,050 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:55:10,057 - config - INFO - [SUCCESS] Page 2 completed with confidence: 1.0
+2025-07-23 17:55:10,059 - config - INFO - Processing page 3/15
+2025-07-23 17:55:22,050 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:55:22,057 - config - INFO - [SUCCESS] Page 3 completed with confidence: 1.0
+2025-07-23 17:55:22,058 - config - INFO - Processing page 4/15
+2025-07-23 17:55:35,334 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:55:35,337 - config - INFO - [SUCCESS] Page 4 completed with confidence: 1.0
+2025-07-23 17:55:35,337 - config - INFO - Processing page 5/15
+2025-07-23 17:55:48,045 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:55:48,052 - config - INFO - [SUCCESS] Page 5 completed with confidence: 1.0
+2025-07-23 17:55:48,053 - config - INFO - Processing page 6/15
+2025-07-23 17:55:59,262 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:55:59,264 - config - INFO - [SUCCESS] Page 6 completed with confidence: 1.0
+2025-07-23 17:55:59,265 - config - INFO - Processing page 7/15
+2025-07-23 17:56:11,200 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:56:11,205 - config - INFO - [SUCCESS] Page 7 completed with confidence: 1.0
+2025-07-23 17:56:11,205 - config - INFO - Processing page 8/15
+2025-07-23 17:56:22,932 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:56:22,939 - config - INFO - [SUCCESS] Page 8 completed with confidence: 1.0
+2025-07-23 17:56:22,940 - config - INFO - Processing page 9/15
+2025-07-23 17:56:34,684 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:56:34,692 - config - INFO - [SUCCESS] Page 9 completed with confidence: 1.0
+2025-07-23 17:56:34,693 - config - INFO - Processing page 10/15
+2025-07-23 17:56:46,232 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:56:46,235 - config - INFO - [SUCCESS] Page 10 completed with confidence: 1.0
+2025-07-23 17:56:46,235 - config - INFO - Processing page 11/15
+2025-07-23 17:56:57,314 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:56:57,320 - config - INFO - [SUCCESS] Page 11 completed with confidence: 1.0
+2025-07-23 17:56:57,321 - config - INFO - Processing page 12/15
+2025-07-23 17:57:09,244 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:57:09,245 - config - INFO - [SUCCESS] Page 12 completed with confidence: 1.0
+2025-07-23 17:57:09,246 - config - INFO - Processing page 13/15
+2025-07-23 17:57:20,497 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:57:20,502 - config - INFO - [SUCCESS] Page 13 completed with confidence: 1.0
+2025-07-23 17:57:20,503 - config - INFO - Processing page 14/15
+2025-07-23 17:57:32,294 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:57:32,303 - config - INFO - [SUCCESS] Page 14 completed with confidence: 1.0
+2025-07-23 17:57:32,305 - config - INFO - Processing page 15/15
+2025-07-23 17:57:43,484 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 17:57:43,491 - config - INFO - [SUCCESS] Page 15 completed with confidence: 1.0
+2025-07-23 17:57:43,491 - config - INFO - Enhanced sequential processing completed. Final confidence: 1.0
+2025-07-23 17:57:43,496 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 18:00:20,452 - config - INFO - Successfully converted 1 pages from PDF
+2025-07-23 18:00:20,453 - config - INFO - [SEQUENTIAL] Processing 1 pages with context carryover
+2025-07-23 18:00:20,453 - config - INFO - Enhanced sequential processing of 1 images
+2025-07-23 18:00:20,453 - config - INFO - Processing page 1/1
+2025-07-23 18:00:23,482 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 18:00:23,482 - openai._base_client - INFO - Retrying request to /chat/completions in 0.444299 seconds
+2025-07-23 18:00:24,704 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 18:00:24,704 - openai._base_client - INFO - Retrying request to /chat/completions in 0.864103 seconds
+2025-07-23 18:00:26,166 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 18:00:26,169 - config - ERROR - Processing error on page 1: Error code: 502 - {'error': 'no available upstreams'}
+2025-07-23 18:00:26,170 - config - ERROR - [ERROR] Page 1 failed: Error code: 502 - {'error': 'no available upstreams'}
+2025-07-23 18:00:26,171 - config - INFO - Enhanced sequential processing completed. Final confidence: N/A
+2025-07-23 18:00:26,174 - config - INFO - [SUCCESS] Sequential extraction complete: No data
+2025-07-23 18:00:47,341 - config - INFO - Successfully converted 1 pages from PDF
+2025-07-23 18:00:47,342 - config - INFO - [SEQUENTIAL] Processing 1 pages with context carryover
+2025-07-23 18:00:47,343 - config - INFO - Enhanced sequential processing of 1 images
+2025-07-23 18:00:47,343 - config - INFO - Processing page 1/1
+2025-07-23 18:00:48,998 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 18:00:48,999 - openai._base_client - INFO - Retrying request to /chat/completions in 0.423013 seconds
+2025-07-23 18:00:49,902 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 18:00:49,904 - openai._base_client - INFO - Retrying request to /chat/completions in 0.824765 seconds
+2025-07-23 18:00:51,209 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 18:00:51,211 - config - ERROR - Processing error on page 1: Error code: 502 - {'error': 'no available upstreams'}
+2025-07-23 18:00:51,212 - config - ERROR - [ERROR] Page 1 failed: Error code: 502 - {'error': 'no available upstreams'}
+2025-07-23 18:00:51,213 - config - INFO - Enhanced sequential processing completed. Final confidence: N/A
+2025-07-23 18:00:51,215 - config - INFO - [SUCCESS] Sequential extraction complete: No data
+2025-07-23 18:01:53,365 - config - INFO - Successfully converted 5 pages from PDF
+2025-07-23 18:01:53,369 - config - INFO - [SEQUENTIAL] Processing 5 pages with context carryover
+2025-07-23 18:01:53,369 - config - INFO - Enhanced sequential processing of 5 images
+2025-07-23 18:01:53,369 - config - INFO - Processing page 1/5
+2025-07-23 18:02:04,561 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:02:04,565 - config - INFO - [SUCCESS] Page 1 completed with confidence: 0.5
+2025-07-23 18:02:04,566 - config - INFO - Processing page 2/5
+2025-07-23 18:02:15,357 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:02:15,363 - config - INFO - [SUCCESS] Page 2 completed with confidence: 0.5
+2025-07-23 18:02:15,364 - config - INFO - Processing page 3/5
+2025-07-23 18:02:26,232 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:02:26,239 - config - INFO - [SUCCESS] Page 3 completed with confidence: 0.5
+2025-07-23 18:02:26,240 - config - INFO - Processing page 4/5
+2025-07-23 18:02:37,218 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:02:37,221 - config - INFO - [SUCCESS] Page 4 completed with confidence: 0.8
+2025-07-23 18:02:37,222 - config - INFO - Processing page 5/5
+2025-07-23 18:02:48,359 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:02:48,361 - config - INFO - [SUCCESS] Page 5 completed with confidence: 0.8
+2025-07-23 18:02:48,362 - config - INFO - Enhanced sequential processing completed. Final confidence: 0.8
+2025-07-23 18:02:48,363 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 18:07:11,099 - config - INFO - Successfully converted 5 pages from PDF
+2025-07-23 18:07:11,102 - config - INFO - [SEQUENTIAL] Processing 5 pages with context carryover
+2025-07-23 18:07:11,103 - config - INFO - Enhanced sequential processing of 5 images
+2025-07-23 18:07:11,103 - config - INFO - Processing page 1/5
+2025-07-23 18:07:24,097 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:07:24,105 - config - INFO - [SUCCESS] Page 1 completed with confidence: 0.5
+2025-07-23 18:07:24,106 - config - INFO - Processing page 2/5
+2025-07-23 18:07:35,993 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:07:35,996 - config - INFO - [SUCCESS] Page 2 completed with confidence: 0.5
+2025-07-23 18:07:35,996 - config - INFO - Processing page 3/5
+2025-07-23 18:07:47,894 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:07:47,902 - config - INFO - [SUCCESS] Page 3 completed with confidence: 0.5
+2025-07-23 18:07:47,903 - config - INFO - Processing page 4/5
+2025-07-23 18:07:59,982 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:07:59,988 - config - INFO - [SUCCESS] Page 4 completed with confidence: 0.8
+2025-07-23 18:07:59,989 - config - INFO - Processing page 5/5
+2025-07-23 18:08:12,036 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:08:12,040 - config - INFO - [SUCCESS] Page 5 completed with confidence: 0.8
+2025-07-23 18:08:12,040 - config - INFO - Enhanced sequential processing completed. Final confidence: 0.8
+2025-07-23 18:08:12,041 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 18:15:01,985 - config - INFO - Successfully converted 15 pages from PDF
+2025-07-23 18:15:01,999 - config - INFO - [SEQUENTIAL] Processing 15 pages with context carryover
+2025-07-23 18:15:01,999 - config - INFO - Enhanced sequential processing of 15 images
+2025-07-23 18:15:02,000 - config - INFO - Processing page 1/15
+2025-07-23 18:15:36,505 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:15:36,510 - config - INFO - [SUCCESS] Page 1 completed with confidence: 0.5
+2025-07-23 18:15:36,510 - config - INFO - Processing page 2/15
+2025-07-23 18:15:50,247 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:15:50,252 - config - INFO - [SUCCESS] Page 2 completed with confidence: 0.5
+2025-07-23 18:15:50,253 - config - INFO - Processing page 3/15
+2025-07-23 18:16:04,112 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:16:04,119 - config - INFO - [SUCCESS] Page 3 completed with confidence: 0.5
+2025-07-23 18:16:04,119 - config - INFO - Processing page 4/15
+2025-07-23 18:16:17,694 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:16:17,699 - config - INFO - [SUCCESS] Page 4 completed with confidence: 0.5
+2025-07-23 18:16:17,700 - config - INFO - Processing page 5/15
+2025-07-23 18:16:31,491 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:16:31,497 - config - INFO - [SUCCESS] Page 5 completed with confidence: 0.5
+2025-07-23 18:16:31,498 - config - INFO - Processing page 6/15
+2025-07-23 18:16:44,263 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:16:44,269 - config - INFO - [SUCCESS] Page 6 completed with confidence: 0.5
+2025-07-23 18:16:44,270 - config - INFO - Processing page 7/15
+2025-07-23 18:16:57,405 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:16:57,414 - config - INFO - [SUCCESS] Page 7 completed with confidence: 0.5
+2025-07-23 18:16:57,415 - config - INFO - Processing page 8/15
+2025-07-23 18:17:11,217 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:17:11,227 - config - INFO - [SUCCESS] Page 8 completed with confidence: 0.5
+2025-07-23 18:17:11,229 - config - INFO - Processing page 9/15
+2025-07-23 18:17:24,404 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:17:24,409 - config - INFO - [SUCCESS] Page 9 completed with confidence: 0.5
+2025-07-23 18:17:24,410 - config - INFO - Processing page 10/15
+2025-07-23 18:17:37,006 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:17:37,016 - config - INFO - [SUCCESS] Page 10 completed with confidence: 0.5
+2025-07-23 18:17:37,017 - config - INFO - Processing page 11/15
+2025-07-23 18:17:49,168 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:17:49,173 - config - INFO - [SUCCESS] Page 11 completed with confidence: 0.5
+2025-07-23 18:17:49,174 - config - INFO - Processing page 12/15
+2025-07-23 18:18:02,124 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:18:02,133 - config - INFO - [SUCCESS] Page 12 completed with confidence: 0.5
+2025-07-23 18:18:02,134 - config - INFO - Processing page 13/15
+2025-07-23 18:18:14,740 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:18:14,751 - config - INFO - [SUCCESS] Page 13 completed with confidence: 0.5
+2025-07-23 18:18:14,752 - config - INFO - Processing page 14/15
+2025-07-23 18:18:27,878 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:18:27,891 - config - INFO - [SUCCESS] Page 14 completed with confidence: 0.5
+2025-07-23 18:18:27,892 - config - INFO - Processing page 15/15
+2025-07-23 18:18:40,259 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 18:18:40,292 - config - INFO - [SUCCESS] Page 15 completed with confidence: 0.5
+2025-07-23 18:18:40,292 - config - INFO - Enhanced sequential processing completed. Final confidence: 0.5
+2025-07-23 18:18:40,295 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 19:00:25,132 - config - INFO - Successfully converted 2 pages from PDF
+2025-07-23 19:00:25,136 - config - INFO - [SEQUENTIAL] Processing 2 pages with context carryover
+2025-07-23 19:00:25,136 - config - INFO - Enhanced sequential processing of 2 images
+2025-07-23 19:00:25,136 - config - INFO - Processing page 1/2
+2025-07-23 19:00:26,139 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 502 Bad Gateway"
+2025-07-23 19:00:26,141 - openai._base_client - INFO - Retrying request to /chat/completions in 0.395968 seconds
+2025-07-23 19:00:58,525 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:00:58,530 - config - INFO - [SUCCESS] Page 1 completed with confidence: 0.5
+2025-07-23 19:00:58,531 - config - INFO - Processing page 2/2
+2025-07-23 19:01:11,634 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:01:11,638 - config - INFO - [SUCCESS] Page 2 completed with confidence: 0.8
+2025-07-23 19:01:11,638 - config - INFO - Enhanced sequential processing completed. Final confidence: 0.8
+2025-07-23 19:01:11,639 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']
+2025-07-23 19:06:17,415 - config - INFO - Successfully converted 15 pages from PDF
+2025-07-23 19:06:17,428 - config - INFO - [SEQUENTIAL] Processing 15 pages with context carryover
+2025-07-23 19:06:17,428 - config - INFO - Enhanced sequential processing of 15 images
+2025-07-23 19:06:17,428 - config - INFO - Processing page 1/15
+2025-07-23 19:06:49,780 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:06:49,785 - config - INFO - [SUCCESS] Page 1 completed with confidence: 0.5
+2025-07-23 19:06:49,786 - config - INFO - Processing page 2/15
+2025-07-23 19:07:03,084 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:07:03,091 - config - INFO - [SUCCESS] Page 2 completed with confidence: 0.5
+2025-07-23 19:07:03,092 - config - INFO - Processing page 3/15
+2025-07-23 19:07:17,036 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:07:17,042 - config - INFO - [SUCCESS] Page 3 completed with confidence: 0.5
+2025-07-23 19:07:17,042 - config - INFO - Processing page 4/15
+2025-07-23 19:07:30,502 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:07:30,509 - config - INFO - [SUCCESS] Page 4 completed with confidence: 0.5
+2025-07-23 19:07:30,510 - config - INFO - Processing page 5/15
+2025-07-23 19:07:43,676 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:07:43,683 - config - INFO - [SUCCESS] Page 5 completed with confidence: 0.5
+2025-07-23 19:07:43,683 - config - INFO - Processing page 6/15
+2025-07-23 19:07:56,306 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:07:56,313 - config - INFO - [SUCCESS] Page 6 completed with confidence: 0.5
+2025-07-23 19:07:56,314 - config - INFO - Processing page 7/15
+2025-07-23 19:08:09,164 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:08:09,167 - config - INFO - [SUCCESS] Page 7 completed with confidence: 0.5
+2025-07-23 19:08:09,167 - config - INFO - Processing page 8/15
+2025-07-23 19:08:22,290 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:08:22,299 - config - INFO - [SUCCESS] Page 8 completed with confidence: 0.5
+2025-07-23 19:08:22,300 - config - INFO - Processing page 9/15
+2025-07-23 19:08:35,229 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:08:35,237 - config - INFO - [SUCCESS] Page 9 completed with confidence: 0.5
+2025-07-23 19:08:35,237 - config - INFO - Processing page 10/15
+2025-07-23 19:08:47,635 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:08:47,642 - config - INFO - [SUCCESS] Page 10 completed with confidence: 0.5
+2025-07-23 19:08:47,642 - config - INFO - Processing page 11/15
+2025-07-23 19:08:59,788 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:08:59,796 - config - INFO - [SUCCESS] Page 11 completed with confidence: 0.5
+2025-07-23 19:08:59,796 - config - INFO - Processing page 12/15
+2025-07-23 19:09:12,157 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:09:12,163 - config - INFO - [SUCCESS] Page 12 completed with confidence: 0.5
+2025-07-23 19:09:12,164 - config - INFO - Processing page 13/15
+2025-07-23 19:09:24,506 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:09:24,509 - config - INFO - [SUCCESS] Page 13 completed with confidence: 0.5
+2025-07-23 19:09:24,509 - config - INFO - Processing page 14/15
+2025-07-23 19:09:37,268 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:09:37,278 - config - INFO - [SUCCESS] Page 14 completed with confidence: 0.5
+2025-07-23 19:09:37,278 - config - INFO - Processing page 15/15
+2025-07-23 19:09:49,373 - httpx - INFO - HTTP Request: POST http://webbed-datepalm-bee-11434.webbed-datepalm-bee.2.cricket.hyperbolic.xyz:30000/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-23 19:09:49,376 - config - INFO - [SUCCESS] Page 15 completed with confidence: 0.5
+2025-07-23 19:09:49,376 - config - INFO - Enhanced sequential processing completed. Final confidence: 0.5
+2025-07-23 19:09:49,377 - config - INFO - [SUCCESS] Sequential extraction complete: ['diaryDate', 'comms-form-input', 'language-input', 'receivedDate', 'letterDate', 'letterRefNo', 'deliveryMode', 'deliveryModeNo', 'sender', 'vipType', 'addToAddressBook', 'orgLevel', 'name', 'designation', 'organisation', 'mobile', 'email', 'address', 'country', 'state', 'cityName', 'pincode', 'phone', 'fax', 'category', 'subCategory', 'subject', 'remarks', 'acknowledgement', 'receiptNature', 'senderConfidence', 'senderConfidenceReason']

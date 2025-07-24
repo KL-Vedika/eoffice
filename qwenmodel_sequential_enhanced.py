@@ -155,8 +155,8 @@ def _process_page_enhanced(image, form_schema, context, page_num):
             ],
         )
         # print("Form schema: ", form_schema)
-        # print("Context: ", context)
-        # print("Response: ", response)
+        print("Context: ", context)
+        print("Response: ", response)
         
         raw_content = response.choices[0].message.content
         # print("Raw content: ", raw_content)

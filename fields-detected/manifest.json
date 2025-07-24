@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Fields Detector",
+  "version": "1.0",
+  "description": "Detects and analyzes form fields with Angular compatibility checks",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+} 
