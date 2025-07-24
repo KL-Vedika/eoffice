@@ -35,68 +35,71 @@ def pdf_to_base64_images(pdf_path, dpi=300, image_format="png"):
 
 def inference(image_base_64):
     """
-    Process each page individually and combine all summaries into a final result.
-    Returns the complete combined summary instead of streaming.
+    Process each page cumulatively, building upon previous summaries to create
+    one final comprehensive summary instead of separate page summaries.
     """
     
     if not image_base_64:
         return "No images provided for summarization."
     
-    page_summaries = []
+    cumulative_summary = ""
     
-    # Process each page individually
+    # Process each page cumulatively
     for i, image in enumerate(image_base_64):
         page_num = i + 1
         print(f"Processing page {page_num}/{len(image_base_64)} for summarization...")
         
         try:
-            # Process single page
+            # Create the user message based on whether this is the first page or not
+            if page_num == 1:
+                # First page - no previous context
+                user_content = [
+                    {"type": "image_url", "image_url": {"url": image}},
+                    {"type": "text", "text": f"Summarize the content of this document page {page_num}. Focus on the main points, key information, and important details."}
+                ]
+            else:
+                # Subsequent pages - include previous summary as context
+                user_content = [
+                    {"type": "image_url", "image_url": {"url": image}},
+                    {"type": "text", "text": f"""Previous summary from pages 1-{page_num-1}:
+{cumulative_summary}
+
+Now analyze page {page_num} and update/expand the summary above to include the new information from this page. Provide a comprehensive summary that integrates all information from pages 1-{page_num}. Do not create separate sections for each page - instead, create one cohesive summary that flows naturally."""}
+                ]
+            
+            # Get response from the model
             response = client.chat.completions.create(
                 model=os.getenv("OPENAI_MODEL"),
                 temperature=0.1,
                 messages=[
                     {"role": "system", "content": SUMMARY_SYSTEM_PROMPT},
-                    {
-                        "role": "user",
-                        "content": [
-                            {"type": "image_url", "image_url": {"url": image}},
-                            {"type": "text", "text": f"Summarize the content of page {page_num}. Focus on the main points, key information, and important details."}
-                        ],
-                    },
+                    {"role": "user", "content": user_content},
                 ],
-                # No streaming - get complete response
             )
             
-            # Get the complete content from the response
-            page_content = response.choices[0].message.content
-            print(f"Page {page_num} content: {page_content[:100]}...")
+            # Update cumulative summary with the new response
+            new_summary = response.choices[0].message.content
+            print(f"New summary: {new_summary}")
             
-            if page_content and page_content.strip():
-                page_summaries.append(f"Page {page_num}: {page_content.strip()}")
+            if new_summary and new_summary.strip():
+                cumulative_summary = new_summary.strip()
+                print(f"Updated cumulative summary after page {page_num}: {len(cumulative_summary)} characters")
             else:
-                page_summaries.append(f"Page {page_num}: No meaningful content extracted.")
+                print(f"No meaningful content extracted from page {page_num}")
+                if not cumulative_summary:
+                    cumulative_summary = f"No meaningful content extracted from page {page_num}."
                 
         except Exception as e:
             print(f"Error processing page {page_num}: {e}")
-            page_summaries.append(f"Page {page_num}: Error processing page - {str(e)}")
+            if not cumulative_summary:
+                cumulative_summary = f"Error processing document - {str(e)}"
             continue
     
-    # Combine all page summaries
-    if page_summaries:
-        if len(page_summaries) == 1:
-            # Single page document
-            combined_summary = page_summaries[0].replace("Page 1: ", "")
-        else:
-            # Multi-page document - create comprehensive summary
-            combined_summary = f"""
-
-{chr(10).join(page_summaries)}
-
-"""
-    else:
-        combined_summary = "No content could be extracted from the document."
+    # Return the final cumulative summary
+    if not cumulative_summary:
+        cumulative_summary = "No content could be extracted from the document."
     
-    print(f"Combined summary length: {len(combined_summary)} characters")
-    return combined_summary
+    print(f"Final summary length: {len(cumulative_summary)} characters")
+    return cumulative_summary
 
 

@@ -7,6 +7,7 @@
       width: 300px;
       padding: 10px;
       font-family: Arial, sans-serif;
+      transition: width 0.3s ease;
     }
     label {
       display: block;
@@ -111,8 +112,11 @@
   <div id="summarySection" style="display: none;">
     <hr>
     <h4 style="margin-bottom: 10px; font-size: 14px;">PDF Summary</h4>
-    <div id="summaryContent" style="max-height: 200px; overflow-y: auto; background: #f8f9fa; padding: 10px; border-radius: 4px; white-space: pre-wrap;"></div>
-    <button id="closeSummaryButton" class="secondary" style="margin-top: 8px; font-size: 11px; padding: 5px 10px;">Close Summary</button>
+    <div id="summaryContent" style="max-height: 350px; overflow-y: auto; background: #f8f9fa; padding: 10px; border-radius: 4px; white-space: pre-wrap;"></div>
+    <div style="display: flex; gap: 5px; margin-top: 8px;">
+      <button id="copyToClipboardButton" class="secondary" style="flex: 1; font-size: 11px; padding: 5px 10px;">Copy to Clipboard</button>
+      <button id="closeSummaryButton" class="secondary" style="flex: 1; font-size: 11px; padding: 5px 10px;">Close Summary</button>
+    </div>
   </div>
 
   <script src="popup.js"></script>

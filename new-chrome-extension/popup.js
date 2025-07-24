@@ -91,6 +91,35 @@ document.addEventListener('DOMContentLoaded', function() {
   // Close summary button
   document.getElementById('closeSummaryButton').addEventListener('click', function() {
     document.getElementById('summarySection').style.display = 'none';
+    // Restore original width when closing summary
+    document.body.style.width = '300px';
+  });
+
+  // Copy to clipboard button
+  document.getElementById('copyToClipboardButton').addEventListener('click', function() {
+    const summaryContent = document.getElementById('summaryContent').textContent;
+    if (summaryContent && summaryContent.trim()) {
+      navigator.clipboard.writeText(summaryContent.trim()).then(function() {
+        // Show success feedback
+        const button = document.getElementById('copyToClipboardButton');
+        const originalText = button.textContent;
+        button.textContent = 'Copied!';
+        button.style.background = '#28a745';
+        
+        // Reset button after 2 seconds
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.style.background = '';
+        }, 2000);
+        
+        showMessage('status', 'Summary copied to clipboard!', 'success');
+      }).catch(function(err) {
+        console.error('Failed to copy to clipboard:', err);
+        showMessage('status', 'Failed to copy to clipboard', 'error');
+      });
+    } else {
+      showMessage('status', 'No summary to copy', 'error');
+    }
   });
 
   function showMessage(elementId, message, type) {
@@ -113,10 +142,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add header with page count if available
     let displayText = cleanSummary;
     if (pagesProcessed) {
-      displayText = `Analysis of ${pagesProcessed} page(s):\n${cleanSummary}`;
+      displayText = `${cleanSummary}`;
     }
     
     summaryContent.textContent = displayText;
+    
+    // Expand popup width when showing summary
+    document.body.style.width = '500px';
     
     // Show the summary section
     summarySection.style.display = 'block';

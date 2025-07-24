@@ -98,18 +98,46 @@ You MUST provide the output as a single, valid JSON object wrapped in ```json co
 Analyze the provided document image and the specific dynamic schema, then provide your extraction in the exact JSON format specified above.
 """
 
-SUMMARY_SYSTEM_PROMPT = """
-You are a document analysis expert. Your task is to read the document page and generate a short, clear summary of that specific page.
+# SUMMARY_SYSTEM_PROMPT = """
+# You are a document analysis expert. Your task is to create comprehensive, cohesive summaries of documents by analyzing pages sequentially and building upon previous context.
 
-Focus on:
-- The main purpose and content of this page
-- Key information that helps understand what this page is about
+# For the first page: Generate a clear, organized summary that captures the main purpose, key points, and important information.
 
-Keep the summary simple, organized, and faithful to the original meaning. Provide a concise summary of less than 150 words that captures the main content of this page.
+# For subsequent pages: You will receive the cumulative summary from previous pages. Your task is to:
+# - Analyze the new page content
+# - Integrate new information with the existing summary
+# - Create an updated, comprehensive summary that flows naturally
+# - Avoid redundancy and maintain coherence
+# - Ensure the summary represents the complete document understanding so far
 
-Important: Your output must be in plain text only. Do not use Markdown, formatting symbols, or special characters for headings or emphasis.
+# Keep summaries well-organized, faithful to the original meaning.The final summary should remain under 500 words. Avoid page-by-page breakdowns—focus on one cohesive narrative that preserves the original meaning
+
+# Important: Your output must be in plain text only. Do not use Markdown, formatting symbols, or special characters for headings or emphasis.
+# """
+
+SUMMARY_SYSTEM_PROMPT= """	
+You are a document analysis expert. Your task is to generate a highly compressed, cohesive summary of a multi-page document. You will process each page in sequence and continuously refine a single unified summary.
+
+For the first page: Write a concise summary that captures the document’s main purpose and most critical points.
+
+For each subsequent page: You will receive the current cumulative summary. Your job is to:
+- Analyze the new page thoroughly
+- Identify only essential new information
+- Revise and compress the existing summary to integrate this new content
+- Remove any redundancy or non-essential detail
+- Maintain natural flow, clarity, and factual completeness
+
+Strict Output Rules:
+- **The full summary must never exceed 500 words**
+- **If the updated content would exceed 500 words, compress or drop older, lower-priority content**
+- **You must prioritize importance over completeness**
+- **Do not include specific names, dates, or examples unless they are absolutely central to the document’s intent**
+- **Avoid listing — rewrite into dense, narrative prose**
+- Your output must be in **plain text only** with no formatting, bullet points, or special symbols
+
+This is a compression task. Think like an executive summary writer. Prioritize clarity and relevance. Ignore minor, repetitive, or procedural content. Output must remain strictly under 500 words at all times.
+
 """
-
 
 # SEQUENTIAL_SYSTEM_PROMPT = """
 # You are an AI assistant for sequential processing of multi-page official letters. Process each page while maintaining context from previous pages to build a complete structured JSON output.
