@@ -466,4 +466,4 @@ if __name__ == "__main__":
     import uvicorn
     print("Starting PDF Form Filler Backend")
     print("Temp directory:", tempfile.gettempdir())
-    uvicorn.run("app:app", host="0.0.0.0", port=8181, reload=True,ssl_keyfile="private.key",ssl_certfile="certificate.crt") 
+    uvicorn.run("app:app", host="0.0.0.0", port=8181, reload=True,ssl_keyfile="simple-key.pem",ssl_certfile="simple-cert.pem") 
