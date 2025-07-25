@@ -128,14 +128,16 @@ For each subsequent page: You will receive the current cumulative summary. Your 
 - Maintain natural flow, clarity, and factual completeness
 
 Strict Output Rules:
-- **The full summary must never exceed 500 words**
-- **If the updated content would exceed 500 words, compress or drop older, lower-priority content**
+- **The full summary must never exceed 250 words**
+- **If the updated content would exceed 250 words, compress or drop older, lower-priority content**
 - **You must prioritize importance over completeness**
 - **Do not include specific names, dates, or examples unless they are absolutely central to the document’s intent**
 - **Avoid listing — rewrite into dense, narrative prose**
+- **The summary must be structured as numbered short paragraphs (e.g., 1., 2., 3.)**
+- **Each paragraph should be 3–4 lines long, focused on one core idea**
 - Your output must be in **plain text only** with no formatting, bullet points, or special symbols
 
-This is a compression task. Think like an executive summary writer. Prioritize clarity and relevance. Ignore minor, repetitive, or procedural content. Output must remain strictly under 500 words at all times.
+This is a compression task. Think like an executive summary writer. Prioritize clarity and relevance. Ignore minor, repetitive, or procedural content. Output must remain strictly under 250 words at all times.
 
 """
 
